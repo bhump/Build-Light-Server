@@ -15,6 +15,16 @@ stages:
       pool:
         vmImage: 'ubuntu-latest'
       steps:
+
+        - task: Bash@3
+          inputs:
+            targetType: 'inline'
+            script: |
+              # Write your commands here
+      
+              echo 'Hello world'
+      
+              ls
         - task: ArchiveFiles@2
           inputs:
             rootFolderOrFile: '$(Build.BinariesDirectory)'
@@ -24,7 +34,7 @@ stages:
             replaceExistingArchive: true
 
           
-          
+
         - task: CopyFiles@2
           displayName: 'Copy Zip to Artifacts'
           inputs:
