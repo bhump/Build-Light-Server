@@ -27,7 +27,7 @@ stages:
           inputs:
             SourceFolder: '$(agent.builddirectory)'
             Contents: '**/*.zip'
-            TargetFolder: '$(build.artifactstagingdirectory)'
+            TargetFolder: '$(Build.ArtifactStagingDirectory)'
             flattenFolders: true
         - task: PublishBuildArtifacts@1
           inputs:
