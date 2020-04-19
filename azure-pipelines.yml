@@ -57,6 +57,7 @@ stages:
         runOnce:
           deploy:
             steps:
+            
               - task: CopyFilesOverSSH@0
                 inputs:
                   sshEndpoint: 'raspberrypizero'
