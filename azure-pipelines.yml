@@ -57,9 +57,9 @@ stages:
         runOnce:
           deploy:
             steps:
-            - task: CopyFilesOverSSH@0
-              inputs:
-                sshEndpoint: 'raspberrypizero'
-                contents: '**/*.zip'
-                targetFolder: 'Documents'
-                readyTimeout: '20000'
+              - task: CopyFilesOverSSH@0
+                inputs:
+                  sshEndpoint: 'raspberrypizero'
+                  contents: '**/*.zip'
+                  targetFolder: 'Documents'
+                  readyTimeout: '20000'
