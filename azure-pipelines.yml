@@ -48,12 +48,14 @@ stages:
             
   - stage: Deploy
     displayName: Deploy to Raspberry Pi Zero
+    dependsOn: Zip
     jobs:
-    - job: deployToPiZero
+    - deployment: deployToPiZero
+      displayName: Deploy to Raspberry Pi Zero
       pool:
         vmImage: 'ubuntu-latest'
-        environment: Development
-        strategy:
+      environment: Development
+      strategy:
         runOnce:
           deploy:
             steps:
