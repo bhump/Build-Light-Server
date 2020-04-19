@@ -45,5 +45,15 @@ stages:
             PathtoPublish: '$(Build.ArtifactStagingDirectory)'
             ArtifactName: 'server-drop'
             publishLocation: 'Container'
-
-
+  - stage: Deploy
+    displayName: Deploy to Raspberry Pi Zero
+    jobs:
+    - job: deployToPiZero
+      pool:
+        vmImage: 'ubuntu-latest'
+        environment: Development
+        strategy:
+        runOnce:
+          deploy:
+            steps:
+            
