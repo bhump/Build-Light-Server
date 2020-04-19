@@ -25,18 +25,14 @@ stages:
               echo 'Hello world'
       
               ls
-        # - task: ArchiveFiles@2
-        #   inputs:
-        #     rootFolderOrFile: '$(Build.BinariesDirectory)/BuildApp'
-        #     includeRootFolder: true
-        #     archiveType: 'zip'
-        #     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-        #     replaceExistingArchive: true
-
-        - task: ZipDirectory@1
+        - task: ArchiveFiles@2
           inputs:
-            ItemSpec: 'BuildApp'
-            
+            rootFolderOrFile: 'BuildApp'
+            includeRootFolder: true
+            archiveType: 'zip'
+            archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+            replaceExistingArchive: true
+
         - task: CopyFiles@2
           displayName: 'Copy Zip to Artifacts'
           inputs:
