@@ -45,6 +45,7 @@ stages:
             PathtoPublish: '$(Build.ArtifactStagingDirectory)'
             ArtifactName: 'server-drop'
             publishLocation: 'Container'
+            
   - stage: Deploy
     displayName: Deploy to Raspberry Pi Zero
     jobs:
@@ -56,4 +57,9 @@ stages:
         runOnce:
           deploy:
             steps:
-            
+            - task: CopyFilesOverSSH@0
+              inputs:
+                sshEndpoint: 'raspberrypizero'
+                contents: '**/*.zip'
+                targetFolder: 'Documents'
+                readyTimeout: '20000'
