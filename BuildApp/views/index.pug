@@ -1,0 +1,43 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{project}
+  div
+    l Build Status: #{buildStatus}
+  div
+    l Enabled
+      input(
+    type='checkbox'
+    name='statusEnabled'
+    checked
+    onclick='handleClick(this);'
+    )
+  script.
+    function handleClick(cb){
+      console.log(cb.checked);
+
+      let isChecked = cb.checked;
+
+      let reqBody = {
+        isEnabled: isChecked
+      }
+
+      fetch('/post', {
+        method: 'POST', 
+        body: JSON.stringify(reqBody),
+        headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function(response) {
+        
+        if(response.ok) {
+          console.log('Click was recorded');
+          return;
+        }
+      
+      throw new Error('Request failed.');
+    }).catch(function(error) {
+        console.log(error);
+      });
+    }
