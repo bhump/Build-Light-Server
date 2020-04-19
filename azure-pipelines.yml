@@ -58,6 +58,7 @@ stages:
           deploy:
             steps:
               - task: CopyFilesOverSSH@0
+                displayName: 'Copy Files to SSH'
                 inputs:
                   sshEndpoint: 'raspberrypizero'
                   contents: '**/*.zip'
