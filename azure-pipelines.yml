@@ -22,11 +22,17 @@ stages:
             archiveType: 'zip'
             archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
             replaceExistingArchive: true
-
+        - task: CopyFiles@2
+          displayName: 'Copy Zip to Artifacts'
+          inputs:
+            SourceFolder: '$(agent.builddirectory)'
+            Contents: '**/*.zip'
+            TargetFolder: '$(build.artifactstagingdirectory)'
+            flattenFolders: true
         - task: PublishBuildArtifacts@1
           inputs:
             PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-            ArtifactName: 'android-drop'
+            ArtifactName: 'server-drop'
             publishLocation: 'Container'
 
 
