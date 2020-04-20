@@ -8,7 +8,7 @@ var lsAuth = 'Basic ' + Buffer.from("username" + ":" + lsAccessToken).toString('
 
 let isLsStatusCheckEnabled = true;
 let latestBuildStatus = '';
-var firstLed = blinkstick.findFirst();
+//var firstLed = blinkstick.findFirst();
 
 async function PollBuilds() {
     let response = '';
