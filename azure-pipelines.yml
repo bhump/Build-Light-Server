@@ -59,11 +59,11 @@ stages:
         runOnce:
           deploy:
             steps:
-              # - task: DownloadPipelineArtifact@2
-              #   inputs:
-              #     buildType: 'current'
-              #     artifactName: 'server-drop'
-              #     downloadPath: '$(System.ArtifactsDirectory)/server-drop'
+              - task: DownloadPipelineArtifact@2
+                inputs:
+                  buildType: 'current'
+                  artifactName: 'server-drop'
+                  downloadPath: '$(System.ArtifactsDirectory)/server-drop'
 
               - task: Bash@3
                 displayName: unzip & add .env file & rezip
@@ -74,10 +74,11 @@ stages:
       
                     echo $(System.ArtifactsDirectory)
                     ls
-                    unzip $(System.ArtifactsDirectory)/server-drop/server.zip
+                    unzip $(System.ArtifactsDirectory)/server-drop/server.zip -d server
                     echo "LS_TOKEN=wu63wfmqjhrnsl3lic4p6c6tg3f5cgwsmxi4cbrw6y5vl6rersvq" >> .env
                     echo "LS_URL=https://dev.azure.com/lonelysasquatch/roasted/_apis/build/builds?$top=1&api-version=5.1" >> .env
                     echo "PORT=3001" >> .env
+                    zip -r server.zip server
 
               - task: CopyFilesOverSSH@0
                 displayName: 'Copy Files to SSH'
