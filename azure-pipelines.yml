@@ -64,9 +64,11 @@ stages:
                   targetType: 'inline'
                   script: |
                     # Write your commands here
+      
                     echo 'Hello world'
+      
                     ls
-                    
+
               - task: CopyFilesOverSSH@0
                 displayName: 'Copy Files to SSH'
                 inputs:
