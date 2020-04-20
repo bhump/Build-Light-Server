@@ -63,6 +63,6 @@ stages:
                 displayName: 'Copy Files to SSH'
                 inputs:
                   sshEndpoint: 'raspberrypizero'
-                  contents: '$(System.ArtifactsDirectory)/BuildApp.zip'
+                  contents: '$(System.ArtifactsDirectory)/**/*.zip'
                   targetFolder: 'Documents'
                   readyTimeout: '20000'
