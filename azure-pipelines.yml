@@ -73,12 +73,12 @@ stages:
       
                     echo 'Hello world'
       
-                    ls
+                    echo $(System.ArtifactsDirectory)
 
               - task: CopyFilesOverSSH@0
                 displayName: 'Copy Files to SSH'
                 inputs:
                   sshEndpoint: 'raspberrypizero'
-                  contents: '/home/vsts/work/1/a/server-drop'
+                  contents: '$(System.ArtifactsDirectory)/server-drop'
                   targetFolder: 'Documents'
                   readyTimeout: '20000'
