@@ -79,6 +79,6 @@ stages:
                 displayName: 'Copy Files to SSH'
                 inputs:
                   sshEndpoint: 'raspberrypizero'
-                  contents: '$(System.ArtifactsDirectory)/**/*.zip'
+                  contents: '/home/vsts/work/1/a/server-drop'
                   targetFolder: 'Documents'
                   readyTimeout: '20000'
