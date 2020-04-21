@@ -34,7 +34,6 @@ stages:
             cd BuildApp
             npm install
             yarn install
-            npm run build
 
         - task: ArchiveFiles@2
           inputs:
