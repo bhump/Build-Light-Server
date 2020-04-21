@@ -6,4 +6,6 @@ BuildApp/node_modules/.DS_Store
 
 BuildApp/node_modules/blinkstick/.DS_Store
 
+BuildApp/node_modules
+
 .DS_Store
