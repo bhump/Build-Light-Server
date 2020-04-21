@@ -28,8 +28,10 @@ stages:
 
         - task: NodeTool@0 
           inputs:
-            versionSpec: 10.x
+            versionSpec: 10.16.0
+          displayName: install node and yarn
         - script: |
+            cd BuildApp
             npm install
             yarn install
 
