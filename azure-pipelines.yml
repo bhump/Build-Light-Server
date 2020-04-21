@@ -8,8 +8,8 @@ trigger:
 
 stages:
 
-  - stage: Zip
-    displayName: Zip Files
+  - stage: Build
+    displayName: Build and Zip
     jobs:
     - job: zipProjectFiles
       pool:
@@ -29,11 +29,12 @@ stages:
         - task: NodeTool@0 
           inputs:
             versionSpec: 10.16.0
-          displayName: install node and yarn
+          displayName: InstallNode&Yarn
         - script: |
             cd BuildApp
             npm install
             yarn install
+            npm run build
 
         - task: ArchiveFiles@2
           inputs:
@@ -51,7 +52,7 @@ stages:
             
   - stage: Deploy
     displayName: Deploy to Raspberry Pi Zero
-    dependsOn: Zip
+    dependsOn: Build
     jobs:
     - deployment: deployToPiZero
       displayName: Deploy to Raspberry Pi Zero
@@ -79,6 +80,7 @@ stages:
                     ls
                     unzip $(System.ArtifactsDirectory)/server-drop/server.zip -d server
                     cd server
+                    ls
                     cat > .env
                     echo "LS_TOKEN=wu63wfmqjhrnsl3lic4p6c6tg3f5cgwsmxi4cbrw6y5vl6rersvq" >> .env
                     echo "LS_URL=https://dev.azure.com/lonelysasquatch/roasted/_apis/build/builds?$top=1&api-version=5.1" >> .env
