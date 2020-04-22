@@ -86,6 +86,7 @@ stages:
                     unzip $(System.ArtifactsDirectory)/server-drop/server.zip -d server
               
               - task: DownloadSecureFile@1
+                name: envFile
                 displayName: Download Env File
                 inputs:
                   secureFile: '.env'
@@ -101,7 +102,7 @@ stages:
                     
                     echo "copying .env to server directory"
                     
-                    cp $(System.ArtifactsDirectory)/.env $(System.ArtifactsDirectory)/server-drop/server
+                    cp $(envFile.secureFilePath) $(System.ArtifactsDirectory)/server-drop/server
                     
                     echo "navigation back to server directory"
                     
