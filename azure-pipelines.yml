@@ -12,6 +12,7 @@ stages:
     displayName: Build and Zip
     jobs:
     - job: zipProjectFiles
+      displayName: Build Express Server
       pool:
         vmImage: 'ubuntu-latest'
       steps:
@@ -26,16 +27,17 @@ stages:
       
               ls
 
-        - task: NodeTool@0 
+        - task: NodeTool@0
           inputs:
             versionSpec: 10.16.0
-          displayName: InstallNode&Yarn
+          displayName: Install Node & Yarn
         - script: |
             cd BuildApp
             npm install
             yarn install
 
         - task: ArchiveFiles@2
+          displayName: Zip App
           inputs:
             rootFolderOrFile: 'BuildApp'
             includeRootFolder: true
@@ -44,6 +46,7 @@ stages:
             replaceExistingArchive: true
 
         - task: PublishBuildArtifacts@1
+          displayName: Publish Artifact
           inputs:
             PathtoPublish: '$(Build.ArtifactStagingDirectory)'
             ArtifactName: 'server-drop'
@@ -63,32 +66,49 @@ stages:
           deploy:
             steps:
               - task: DownloadPipelineArtifact@2
+                displayName: Download Drop
                 inputs:
                   buildType: 'current'
                   artifactName: 'server-drop'
                   downloadPath: '$(System.ArtifactsDirectory)/server-drop'
 
-              - task: DownloadSecureFile@1
-                inputs:
-                  secureFile: '.env'
-
               - task: Bash@3
-                displayName: unzip & add .env file & rezip
+                displayName: Unzip
                 inputs:
                   targetType: 'inline'
                   script: |
                     # Write your commands here
       
                     echo $(System.ArtifactsDirectory)
-                    echo "unzipping server.zip"
+                    
+                    echo "unzip server.zip"
+                    
                     unzip $(System.ArtifactsDirectory)/server-drop/server.zip -d server
+              
+              - task: DownloadSecureFile@1
+                displayName: Download Env File
+                inputs:
+                  secureFile: '.env'
+
+              - task: Bash@3
+                displayName: Add Env File & Re-Zip
+                inputs:
+                  targetType: 'inline'
+                  script: |
                     echo "changing directory"
+                    
                     cd server
+                    
                     echo "copying .env to server directory"
+                    
                     cp $(System.ArtifactsDirectory)/.env $(System.ArtifactsDirectory)/server-drop/server
+                    
                     echo "navigation back to server directory"
+                    
                     cd ..
+                    
                     echo "zipping server"
+                    
                     zip -r server.zip server
 
               - task: CopyFilesOverSSH@0
