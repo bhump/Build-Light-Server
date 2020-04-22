@@ -102,7 +102,7 @@ stages:
                     
                     echo "copying .env to server directory"
                     
-                    cp $(envFile.secureFilePath) $(System.ArtifactsDirectory)/server-drop/server
+                    cp $(envFile.secureFilePath)/.env $(System.ArtifactsDirectory)/server-drop/server
                     
                     echo "navigation back to server directory"
                     
