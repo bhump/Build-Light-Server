@@ -80,12 +80,15 @@ stages:
                     # Write your commands here
       
                     echo $(System.ArtifactsDirectory)
-                    ls
+                    echo "unzipping server.zip"
                     unzip $(System.ArtifactsDirectory)/server-drop/server.zip -d server
+                    echo "changing directory"
                     cd server
+                    echo "copying .env to server directory"
                     cp $(System.ArtifactsDirectory)/.env $(System.ArtifactsDirectory)/server-drop/server
-                    ls
+                    echo "navigation back to server directory"
                     cd ..
+                    echo "zipping server"
                     zip -r server.zip server
 
               - task: CopyFilesOverSSH@0
