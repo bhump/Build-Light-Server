@@ -68,6 +68,10 @@ stages:
                   artifactName: 'server-drop'
                   downloadPath: '$(System.ArtifactsDirectory)/server-drop'
 
+              - task: DownloadSecureFile@1
+                inputs:
+                  secureFile: '.env'
+
               - task: Bash@3
                 displayName: unzip & add .env file & rezip
                 inputs:
@@ -79,10 +83,8 @@ stages:
                     ls
                     unzip $(System.ArtifactsDirectory)/server-drop/server.zip -d server
                     cd server
+                    cp $(System.ArtifactsDirectory)/.env $(System.ArtifactsDirectory)/server-drop/server
                     ls
-                    export LS_TOKEN=wu63wfmqjhrnsl3lic4p6c6tg3f5cgwsmxi4cbrw6y5vl6rersvq
-                    export LS_URL=https://dev.azure.com/lonelysasquatch/roasted/_apis/build/builds?$top=1&api-version=5.1
-                    export PORT=3001
                     cd ..
                     zip -r server.zip server
 
