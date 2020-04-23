@@ -110,6 +110,8 @@ stages:
                     echo "LS_URL=https://dev.azure.com/lonelysasquatch/roasted/_apis/build/builds?=1&api-version=5.1">>.env
                     echo "PORT=3001">>.env
 
+                    cat .env
+
                     ls
                     
                     echo "navigation back to server directory"
