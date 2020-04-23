@@ -83,7 +83,7 @@ stages:
                     
                     echo "unzip server.zip"
                     
-                    unzip -r server.zip deploy
+                    unzip -r $(System.ArtifactsDirectory)/server-drop/server.zip deploy
               
               # - task: DownloadSecureFile@1
               #   name: envFile
