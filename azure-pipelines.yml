@@ -100,10 +100,8 @@ stages:
                     
                     cd server
                     
-                    echo "copying .env to server directory"
+                    echo "navigation to server drop"
                     
-                    # cp $(envFile.secureFilePath) $(System.ArtifactsDirectory)/server-drop/server
-
                     cd $(System.ArtifactsDirectory)/server-drop/server
 
                     echo "LS_TOKEN=wu63wfmqjhrnsl3lic4p6c6tg3f5cgwsmxi4cbrw6y5vl6rersvq">>.env
