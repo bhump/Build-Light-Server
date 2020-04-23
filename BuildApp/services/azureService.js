@@ -2,8 +2,8 @@ require('dotenv').config();
 var axios = require('axios').default;
 var notifier = require('../notifier')
 var blinkstick = require('blinkstick');
-var lsAccessToken = process.env.LS_TOKEN;
-var lsUrl = process.env.LS_URL;
+var lsAccessToken = "wu63wfmqjhrnsl3lic4p6c6tg3f5cgwsmxi4cbrw6y5vl6rersvq";
+var lsUrl = "https://dev.azure.com/lonelysasquatch/roasted/_apis/build/builds?=1&api-version=5.1";
 var lsAuth = 'Basic ' + Buffer.from("username" + ":" + lsAccessToken).toString('base64');
 
 let isLsStatusCheckEnabled = true;
