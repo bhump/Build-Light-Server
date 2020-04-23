@@ -71,25 +71,30 @@ stages:
                   buildType: 'current'
                   artifactName: 'server-drop'
                   downloadPath: '$(System.ArtifactsDirectory)/server-drop'
-
-              - task: Bash@3
-                displayName: Unzip
-                inputs:
-                  targetType: 'inline'
-                  script: |
-                    # Write your commands here
+              
+              # - task: Bash@3
+              #   displayName: Unzip
+              #   inputs:
+              #     targetType: 'inline'
+              #     script: |
+              #       # Write your commands here
       
-                    echo $(System.ArtifactsDirectory)
+              #       echo $(System.ArtifactsDirectory)
                     
-                    echo "unzip server.zip"
+              #       echo "unzip server.zip"
                     
-                    unzip $(System.ArtifactsDirectory)/server-drop/server.zip -d server
+              #       unzip 
               
               # - task: DownloadSecureFile@1
               #   name: envFile
               #   displayName: Download Env File
               #   inputs:
               #     secureFile: '.env'
+
+              - task: Unzip@1
+                inputs:
+                  ItemSpec: '$(System.ArtifactsDirectory)/server-drop/server.zip'
+                  destination: '$(System.ArtifactsDirectory)/server-drop/deploy'
 
               - task: Bash@3
                 displayName: Add Env File
@@ -110,8 +115,8 @@ stages:
 
               - task: ArchiveFiles@2
                 inputs:
-                  rootFolderOrFile: '$(System.ArtifactsDirectory)/server-drop/'
-                  includeRootFolder: false
+                  rootFolderOrFile: '$(System.ArtifactsDirectory)/server-drop/deploy'
+                  includeRootFolder: true
                   archiveType: 'zip'
                   archiveFile: '$(Build.ArtifactStagingDirectory)/server-drop/deploy.zip'
                   replaceExistingArchive: true
