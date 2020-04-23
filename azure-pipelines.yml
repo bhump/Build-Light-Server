@@ -112,15 +112,15 @@ stages:
                     
                     cd ..
                     
-                    # echo "zipping server"
+                    echo "zipping server"
                     
-                    # zip -r server.zip server
+                    zip -r deploy.zip server
 
               - task: CopyFilesOverSSH@0
                 displayName: 'Copy Files to SSH'
                 inputs:
                   sshEndpoint: 'raspberrypizero'
                   sourceFolder: '$(System.ArtifactsDirectory)/server-drop'
-                  contents: '**'
+                  contents: 'deploy.zip'
                   targetFolder: 'Documents'
                   readyTimeout: '20000'
