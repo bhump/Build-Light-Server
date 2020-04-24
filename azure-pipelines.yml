@@ -104,13 +104,15 @@ stages:
 
                     echo "writing out .env file"
                     cat .env
-                    
+                    echo "finished writing out .env file"
+
                     ls
                     echo "navigation back to server directory"
+                    cd ..
 
               - task: ArchiveFiles@2
                 inputs:
-                  rootFolderOrFile: '$(System.ArtifactsDirectory)/server-drop/deploy'
+                  rootFolderOrFile: '$(System.ArtifactsDirectory)/server-drop'
                   includeRootFolder: true
                   archiveType: 'zip'
                   archiveFile: '$(Build.ArtifactStagingDirectory)/server-drop/deploy.zip'
