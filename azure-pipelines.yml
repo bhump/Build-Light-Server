@@ -118,6 +118,9 @@ stages:
                     ls -a
                     echo "navigation back to server directory"
                     cd ..
+                    ls
+                    cd ..
+                    ls
 
               - task: ArchiveFiles@2
                 inputs:
