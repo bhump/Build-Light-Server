@@ -151,7 +151,7 @@ stages:
                     
                     unzip deploy.zip -d deploy
                     
-                    cd BuildApp
+                    cd deploy/BuildApp
                     
-                    npm start
+                    # npm start
                   readyTimeout: '20000'
