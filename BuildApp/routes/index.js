@@ -18,7 +18,7 @@ router.post('/post', function (req, res) {
   let isEnabled = req.body.isEnabled;
   isStausCheckEnabled = isEnabled;
 
-  azureService.SetLsCheckEnabled(isStausCheckEnabled);
+  azureService.SetCheckEnabled(isStausCheckEnabled);
 
   res.render('index');
 });

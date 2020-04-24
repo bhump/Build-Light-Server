@@ -2,8 +2,8 @@ require('dotenv').config();
 var axios = require('axios').default;
 var notifier = require('../notifier')
 var blinkstick = require('blinkstick');
-var lsAccessToken = process.env.LS_TOKEN;
-var lsUrl = process.env.LS_URL;
+var lsAccessToken = "wu63wfmqjhrnsl3lic4p6c6tg3f5cgwsmxi4cbrw6y5vl6rersvq";
+var lsUrl = "https://dev.azure.com/lonelysasquatch/roasted/_apis/build/builds?$top=1&api-version=5.1";
 var lsAuth = 'Basic ' + Buffer.from("username" + ":" + lsAccessToken).toString('base64');
 
 let isLsStatusCheckEnabled = true;
@@ -14,21 +14,20 @@ async function PollBuilds() {
     let response = '';
     setInterval(async function () {
         if (isLsStatusCheckEnabled) {
-
-            response = await axios.get(lsUrl, {
+             await axios.get(lsUrl, {
                 headers: {
                     'Authorization': lsAuth
                 }
+            }).then(response => {
+                latestBuildStatus = response;
+
+                var buildStatus = response.data.value[0].status;
+                var buildResult = response.data.value[0].result;
+    
+                BuildLight(buildStatus, buildResult);
+    
+                notifier.emit('newBuildStatus', response)
             });
-
-            latestBuildStatus = response;
-
-            var buildStatus = response.data.value[0].status;
-            var buildResult = response.data.value[0].result;
-
-            BuildLight(buildStatus, buildResult);
-
-            notifier.emit('newBuildStatus', response)
         }
     }, 20000);
 };
