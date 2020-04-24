@@ -83,7 +83,7 @@ stages:
                     
                     echo "unzip server.zip"
                     
-                    unzip $(System.ArtifactsDirectory)/server-drop/server.zip -d deploy
+                    unzip $(System.ArtifactsDirectory)/server-drop/server.zip -d $(System.ArtifactsDirectory)/server-drop/deploy
               
               # - task: DownloadSecureFile@1
               #   name: envFile
@@ -99,7 +99,7 @@ stages:
 
                     ls
                     echo "changing directory"
-                    cd deploy
+                    cd $(System.ArtifactsDirectory)/server-drop/deploy
                     
                     echo "current .env file"
                     cat .env
