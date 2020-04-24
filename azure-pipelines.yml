@@ -71,56 +71,70 @@ stages:
                   buildType: 'current'
                   artifactName: 'server-drop'
                   downloadPath: '$(System.ArtifactsDirectory)/server-drop'
-
+              
               - task: Bash@3
                 displayName: Unzip
                 inputs:
                   targetType: 'inline'
                   script: |
-                    # Write your commands here
+                    set -e
       
                     echo $(System.ArtifactsDirectory)
                     
                     echo "unzip server.zip"
                     
-                    unzip $(System.ArtifactsDirectory)/server-drop/server.zip -d server
+                    unzip $(System.ArtifactsDirectory)/server-drop/server.zip -d $(System.ArtifactsDirectory)/server-drop/deploy
               
-              - task: DownloadSecureFile@1
-                name: envFile
-                displayName: Download Env File
-                inputs:
-                  secureFile: '.env'
+              # - task: DownloadSecureFile@1
+              #   name: envFile
+              #   displayName: Download Env File
+              #   inputs:
+              #     secureFile: '.env'
 
               - task: Bash@3
-                displayName: Add Env File & Re-Zip
+                displayName: Add Env File
                 inputs:
                   targetType: 'inline'
                   script: |
+
+                    ls
                     echo "changing directory"
+                    cd $(System.ArtifactsDirectory)/server-drop/deploy
                     
-                    cd server
-                                        
+                    echo "current .env file"
+                    cat .env
+                    echo "end of current .env file"
+
+                    echo "writing new values to .env"
                     echo "LS_TOKEN=wu63wfmqjhrnsl3lic4p6c6tg3f5cgwsmxi4cbrw6y5vl6rersvq">>.env
                     echo "LS_URL=https://dev.azure.com/lonelysasquatch/roasted/_apis/build/builds?=1&api-version=5.1">>.env
                     echo "PORT=3001">>.env
+                    echo "finished writing new values to .env"
 
+                    echo "writing out .env file"
                     cat .env
+                    echo "finished writing out .env file"
 
-                    ls
-                    
+                    ls -a
                     echo "navigation back to server directory"
-                    
                     cd ..
-                    
-                    echo "zipping server"
-                    
-                    zip -r server.zip server
+                    ls
+                    cd ..
+                    ls
+
+              - task: ArchiveFiles@2
+                inputs:
+                  rootFolderOrFile: '$(System.ArtifactsDirectory)/server-drop/deploy'
+                  includeRootFolder: false
+                  archiveType: 'zip'
+                  archiveFile: '$(Build.ArtifactStagingDirectory)/server-drop/deploy.zip'
+                  replaceExistingArchive: true
 
               - task: CopyFilesOverSSH@0
                 displayName: 'Copy Files to SSH'
                 inputs:
                   sshEndpoint: 'raspberrypizero'
                   sourceFolder: '$(System.ArtifactsDirectory)/server-drop'
-                  contents: '**'
+                  contents: 'deploy.zip'
                   targetFolder: 'Documents'
                   readyTimeout: '20000'
