@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({path:__dirname+'/./../../.env'});
 var axios = require('axios').default;
 var notifier = require('../notifier')
 var blinkstick = require('blinkstick');
