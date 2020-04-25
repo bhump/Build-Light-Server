@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-require('dotenv').config();
+require('dotenv').config({path:__dirname+'/./../../.env'});
 var app = require('../app');
 var debug = require('debug')('buildapp:server');
 var http = require('http');
@@ -15,7 +15,7 @@ var azureService = require('../services/azureService');
  */
 
 var port = normalizePort(process.env.PORT || '3000');
-app.set('port', '3001');
+app.set('port', port);
 
 /**
  * Create HTTP server.
