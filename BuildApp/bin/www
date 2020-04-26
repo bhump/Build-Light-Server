@@ -9,7 +9,6 @@ var debug = require('debug')('buildapp:server');
 var http = require('http');
 
 var azureService = require('../services/azureService');
-
 /**
  * Get port from environment and store in Express.
  */

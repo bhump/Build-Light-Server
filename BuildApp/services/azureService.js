@@ -1,12 +1,13 @@
 require('dotenv').config({path:__dirname+'/./../../.env'});
 var axios = require('axios').default;
-var notifier = require('../notifier')
+var notifier = require('../notifier');
+var ledService = require('../services/ledService');
 var blinkstick = require('blinkstick');
 var lsAccessToken = process.env.LS_TOKEN;
 var lsUrl = "https://dev.azure.com/lonelysasquatch/roasted/_apis/build/builds?$top=1&api-version=5.1";
 var lsAuth = 'Basic ' + Buffer.from("username" + ":" + lsAccessToken).toString('base64');
 
-let isLsStatusCheckEnabled = true;
+let isLsStatusCheckEnabled = false;
 let latestBuildStatus = '';
 //var firstLed = blinkstick.findFirst();
 
@@ -24,7 +25,7 @@ async function PollBuilds() {
                 var buildStatus = response.data.value[0].status;
                 var buildResult = response.data.value[0].result;
     
-                BuildLight(buildStatus, buildResult);
+                ledService.BuildLight(buildStatus, buildResult);
     
                 notifier.emit('newBuildStatus', response)
             });
@@ -35,26 +36,6 @@ async function PollBuilds() {
 function SetCheckEnabled(isCheckEnabled) {
     isStatusCheckEnabled = isCheckEnabled;
 };
-
-function BuildLight(status, result, led) {
-    let buildStatus = status;
-    let buildResult = result;
-
-    //TODO: Enable once blinksticks are connected
-    if (buildStatus === "inProgress") {
-        //TODO: Add Build Light logic here for in motion builds
-        console.log("**Blinking Yellow");
-        //led.blink('yellow');
-    } else if (buildStatus === "completed" && buildResult === "succeeded") {
-        //TODO: Add success status light here (green)
-        console.log("**Solid Green");
-        //led.setColor('green');
-    } else if (buildStats === "completed" && buildResult === "failed") {
-        //TODO: Add failure status light here (red)
-        console.log("**Solid Red");
-        //led.setColor('red');
-    }
-}
 
 module.exports = {
     PollBuilds,
