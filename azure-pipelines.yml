@@ -3,6 +3,9 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
+variables:
+  mongodb_password: $(MONGODB_PASSWORD)
+
 trigger:
 - master
 
@@ -106,6 +109,7 @@ stages:
                     echo "end of current .env file"
 
                     echo "writing new values to .env"
+                    echo "DB_CONNECTION=mongodb+srv://dbUser:$(mongodb_password)@squatchcluster-c7dfz.mongodb.net/test?retryWrites=true&w=majority">>.env
                     echo "LS_TOKEN=wu63wfmqjhrnsl3lic4p6c6tg3f5cgwsmxi4cbrw6y5vl6rersvq">>.env
                     echo "LS_URL=\"https://dev.azure.com/lonelysasquatch/roasted/_apis/build/builds?=1&api-version=5.1"\">>.env
                     echo "PORT=3001">>.env

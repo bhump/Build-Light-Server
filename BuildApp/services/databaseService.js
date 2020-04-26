@@ -1,7 +1,11 @@
+require('dotenv').config({path:__dirname+'/./../../.env'});
 var notifier = require('../notifier')
 var mongoose = require("mongoose");
+
+var mongoDbConnection = process.env.DB_CONNECTION;
+
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost:27017/build-db", {
+mongoose.connect(mongoDbConnection, {
     useUnifiedTopology: true,
     useNewUrlParser: true
 });
