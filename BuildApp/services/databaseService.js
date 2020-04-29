@@ -17,8 +17,9 @@ var webhookSchema = new mongoose.Schema({
 
 var pollingSchema = new mongoose.Schema({
     pollingUrl: String,
-    accessToken: String,
-    isEnabled: Boolean
+    accessToken: Object,
+    isEnabled: Boolean,
+    pollingInterval: Number
 });
 
 var Webhook = mongoose.model("Webhook", webhookSchema);
@@ -42,10 +43,10 @@ async function SaveNewPolling(item) {
     try {
         await pollToAdd.save();
         console.log("item saved");
-        return "item saved"
+        return true;
     } catch (err) {
         console.log("Failed to add time: " + err);
-        return err;
+        return false;
     }
 };
 

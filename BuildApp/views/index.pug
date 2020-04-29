@@ -11,8 +11,7 @@ block content
       ul
         li= hook.hookUrl 
         li= hook.isEnabled
-        li
-        = val 
+        li= val 
         button.btn.btn-sm(type='sumbit', value=hook.id, onClick='removeItem(this)') Remove
   div
     form(method='POST' action='/addNewWebhook')
@@ -24,6 +23,14 @@ block content
         input#hookEnabled.form-control(type='checkbox' name='hookEnabled' checked)
       button.btn.btn-primary(type='submit') Add
   div
+    l Available Polling
+    each poll in polling
+      ul
+        li= poll.pollingUrl
+        li= poll.pollingInterval
+        li= poll.isEnabled
+        li= val 
+        button.btn.btn-sm(type='sumbit', value=poll.id, onClick='removePoll(this)') Remove
     div
     form(method='POST' action='/addNewPoll')
       div.form-group
@@ -32,6 +39,9 @@ block content
       div.form-group
         label(for='accessToken') AccessToken:
         input#accessToken.form-control(type='text', placeholder='AccessToken' name='accessToken')
+      div.form-group
+        label(for='pollingInterval') AccessToken:
+        input#pollingInterval.form-control(type='number', placeholder='Polling Interval' name='pollingInterval')
       div.form-group
         label(for='pollEnabled') Enabled:
         input#pollEnabled.form-control(type='checkbox' name='pollEnabled' checked)
@@ -45,6 +55,32 @@ block content
       }
 
       fetch('/deleteWebhook', {
+        method: 'POST', 
+        body: JSON.stringify(reqBody),
+        headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(function(response) {
+        
+        if(response.ok) {
+          console.log('Click was recorded');
+          return;
+        }
+      
+      throw new Error('Request failed.');
+    }).catch(function(error) {
+        console.log(error);
+      });
+    }
+
+    function removePoll(item){
+      console.log(item.value);
+
+      let reqBody = {
+        id: item.value
+      }
+
+      fetch('/deletePoll', {
         method: 'POST', 
         body: JSON.stringify(reqBody),
         headers: {
