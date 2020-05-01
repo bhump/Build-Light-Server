@@ -1,4 +1,7 @@
-require('dotenv').config({path:__dirname+'/./../../.env'});
+require('dotenv').config({
+    path: __dirname + '/./../../.env'
+});
+var encrpytionService = require('../services/encryptionService.js');
 var notifier = require('../notifier')
 var mongoose = require("mongoose");
 
@@ -22,8 +25,24 @@ var pollingSchema = new mongoose.Schema({
     pollingInterval: Number
 });
 
+
+var userSchema = new mongoose.Schema({
+    email: {
+        type: String,
+        required: true,
+        unique: 1,
+        trim: true
+    },
+    password: {
+        type: Object,
+        required: true,
+        minlength: 6
+    },
+});
+
 var Webhook = mongoose.model("Webhook", webhookSchema);
 var Poll = mongoose.model("Poll", pollingSchema);
+var User = mongoose.model("User", userSchema);
 
 async function SaveNewWebhook(item) {
     var hookToAdd = Webhook(item);
@@ -82,11 +101,40 @@ async function DeletePoll(itemId) {
     }
 };
 
+async function CreateAccount(item) {
+    // try {
+    //     var emailItem = item.Email;
+    //     var passwordHash = encrpytionService.Encrypt(item.password);
+
+    //     var newAccount = {
+    //         email = emailItem,
+    //         password = passwordHash
+    //     }
+
+    //     await User.save(newAccount);
+    //     return true;
+    // } catch (err) {
+    //     console.log(err);
+    //     return false;
+    // }
+};
+
+async function Login(item){
+    // try{
+
+    //     return true;
+    // }catch(err){
+    //     console.log(err);
+    //     return false;
+    // }
+}
+
 module.exports = {
     SaveNewWebhook,
     SaveNewPolling,
     GetWebhooks,
     GetPolling,
     DeleteWebhook,
-    DeletePoll
+    DeletePoll,
+    CreateAccount
 }

@@ -29,7 +29,7 @@ router.get('/', async function (req, res, next) {
     availableHooks.push(hookItem);
   });
 
-  res.render('cover', {
+  res.render('dashboard', {
     title: 'Lonely Sasquatch Status Hub',
     project: 'Status Hub',
     hooks: availableHooks,

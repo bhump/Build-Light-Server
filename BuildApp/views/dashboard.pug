@@ -1,0 +1,166 @@
+extends _bootstrap
+append styles
+	//	!-- Custom styles for this template --
+	link(href="../stylesheets/style.css", rel="stylesheet")
+
+block body
+	.site-wrapper
+		.site-wrapper-inner
+			.cover-container
+				.masthead.clearfix
+					.inner
+						h3.masthead-brand Dashboard
+						nav
+							ul.nav.masthead-nav
+								li.active 
+									a(href="#") Home
+								li 
+									a(href="#") Account
+			.col-lg-12.inner
+				div.col-lg-12.inner
+					div.col-lg-12.inner-column-padding
+						div.col-lg-6
+							h1.text-left Available Hooks
+						div.col-lg-6
+							div.row
+								div.col.text-right.add-button-padding
+									button.btn.btn-sm.btn-default.add-new-hook(type="button", value="", onclick='AddNewHookRow()') Add New
+						table#hookTable.table.table-sm.table-hooks
+							thead
+								tr.d-flex
+									th.col-xs-4 Endpiont
+									th.col-xs-4 Enabled
+									th.col-xs-4 Remove
+							each hook in hooks
+								tbody
+									tr.d-flex
+										td.text-left= hook.hookUrl
+										td.text-left
+											input#hookEnabled(type="checkbox", name="hookEnabled", checked=(true===hook.isEnabled ? "checked" : undefined))
+										td.text-left
+											button.btn.btn-sm.btn-default(type="button", value=hook.id, onClick="RemoveHook(this)") Remove
+
+
+				div.col-lg-12.inner
+					div.col-lg-12.inner-column-padding
+						div.col-lg-6
+							h1.text-left Available Polls
+						div.col-lg-6
+							div.row
+								div.col.text-right.add-button-padding
+									button.btn.btn-sm.btn-default.add-new-polling(type="button", value="", onclick='AddNewPollingRow()') Add New
+						table#pollingTable.table.table-sm.table-polling
+							thead
+								tr.d-flex
+									th.col-xs-3 Token
+									th.col-xs-3 Endpiont
+									th.col-xs-3 Enabled
+									th.col-xs-3 Remove
+							each poll in polling
+								tbody
+									tr.d-flex
+										td.text-left= poll.accessToken
+										td.text-left= poll.pollingUrl
+										td.text-left
+											input#pollEnabled(type="checkbox", name="pollEnabled", checked=poll.isEnabled)
+										td.text-left
+											button.btn.btn-sm.btn-default(type="button", value=poll.id) Remove
+
+				.mastfoot
+					.inner
+						p Cover template for <a href="http://getbootstrap.com">Bootstrap </a>, by <a href="https://twitter.com/mdo">@mdo</a>.
+	script.
+		function AddNewHookRow(){
+
+			var html = '<tr class="new-hook-row">' + 
+				'<td class="text-left">' +
+					'<input type="text" class="form-control new-hook-url" name="newHookUrl"/>' +
+				'</td>' +
+				'<td class="text-left">' + 
+					'<input type="checkbox" class="form-control new-hook-enabled" name="newHookEnabled" checked></input>' + 
+				'</td>' + 
+				'<td class="text-left">' + 
+					'<button type="submit" class="btn btn-primary add-button-table-padding" onClick="AddWebhook()">Add</button>' + 
+					'<button type="submit" class="btn btn-primary add-button-table-padding" onClick="CancelAddWebhook()">Cancel</button>' + 
+				'</td>' + 
+				'</tr>'
+
+			$('#hookTable > tbody:last-child').append(html);
+		};
+
+		function AddWebhook(){
+			var newHookEndpoint = $(".table-hooks").find(".new-hook-url").val();
+			var newHookIsEnabled = $(".table-hooks").find(".new-hook-enabled:checked").val();
+			console.log(newHookEndpoint);
+			console.log(newHookIsEnabled);
+			
+			let reqBody = {
+				hookUrl: newHookEndpoint,
+				isEnabled: newHookIsEnabled
+			};
+
+			fetch('/addNewWebhook', {
+				method: 'POST',
+				body: JSON.stringify(reqBody),
+				headers: {
+					"Content-Type": "application/json"
+				}
+			}).then(function(response){
+				if(response.ok){
+					location.reload();
+				}
+				throw new Error("Request failed.");
+			}).catch(function(error){
+				console.log(error);
+			});
+
+		};
+
+		function RemoveHook(item){
+			console.log(item.value);
+
+			let reqBody = {
+				id: item.value
+			}
+
+			fetch('/deleteWebhook', {
+				method: 'POST',
+				body: JSON.stringify(reqBody),
+				headers: {
+					"Content-Type": "application/json"
+				}
+			}).then(function(response){
+				if(response.ok){
+					location.reload();
+				}
+				throw new Error("Request Failed");
+			}).catch(function(error){
+				console.log(error);
+			});
+		};
+
+		function CancelAddWebhook(){
+			$('.new-hook-row').remove();
+		};
+
+		function AddNewPollingRow(){
+			console.log('clicked');
+
+			var html = '<tr class="new-polling-row">' + 
+				'<td class="text-left">' +
+					'<input type="text" class="form-control new-polling-token" name="newPollingToken"/>' +
+				'</td>' +
+				'<td class="text-left">' +
+					'<input type="text" class="form-control new-polling-url" name="newPollingUrl"/>' +
+				'</td>' +
+				'<td class="text-left">' + 
+					'<input type="checkbox" class="form-control new-polling-enabled" name="newPollEnabled" checked></input>' + 
+				'</td>' + 
+				'<td class="text-left">' + 
+					'<button type="submit" class="btn btn-primary add-button-table-padding" onClick="AddPolling()">Add</button>' + 
+					'<button type="submit" class="btn btn-primary add-button-table-padding" onClick="CancelPolling()">Cancel</button>' + 
+				'</td>' + 
+				'</tr>'
+
+			$('#pollingTable > tbody:last-child').append(html);
+		};

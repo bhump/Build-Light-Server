@@ -19,6 +19,14 @@ a:hover {
   border: 1px solid #fff;
 }
 
+.add-button-padding{
+  padding-top:2em;
+}
+
+.add-button-table-padding{
+  margin-left: .2em;
+  margin-right: .2em;
+}
 
 /*
  * Base structure
@@ -58,6 +66,10 @@ body {
   padding: 30px;
 }
 
+.inner-column-padding{
+  padding-left: 20em;
+  padding-right: 20em;
+}
 
 /*
  * Header
@@ -144,7 +156,8 @@ body {
   }
   /* Start the vertical centering */
   .site-wrapper-inner {
-    vertical-align: middle;
+    vertical-align: top;
+    padding-top: 10em;
   }
   /* Handle the widths */
   .masthead,
