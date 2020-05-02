@@ -85,7 +85,16 @@ block body
 				'</td>' + 
 				'</tr>'
 
-			$('#hookTable > tbody:last-child').append(html);
+			var lastRow = $('#hookTable > tbody:last-child');
+
+			if(lastRow.length === 0){
+				$('#hookTable').append('tbody' + html);
+			}else{
+				$('#hookTable > tbody:last-child').append(html);
+			}
+
+
+			console.log(lastRow);
 		};
 
 		function AddWebhook(){
@@ -162,5 +171,15 @@ block body
 				'</td>' + 
 				'</tr>'
 
-			$('#pollingTable > tbody:last-child').append(html);
+			var lastRow = $('#pollingTable > tbody:last-child');
+
+			console.log(lastRow);
+
+			if(lastRow.length === 0){
+				console.log("no row");
+
+				$('#pollingTable').append('tbody' + html);
+			}else{
+				$('#pollingTable > tbody:last-child').append(html);
+			}
 		};
