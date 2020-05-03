@@ -54,17 +54,19 @@ block body
 								tr.d-flex
 									th.col-xs-3 Token
 									th.col-xs-3 Endpiont
-									th.col-xs-3 Enabled
+									th.col-xs-1 Interval
+									th.col-xs-1 Enabled
 									th.col-xs-3 Remove
 							each poll in polling
 								tbody
 									tr.d-flex
-										td.text-left= poll.accessToken
+										td.text-left ****************
 										td.text-left= poll.pollingUrl
+										td.text-left= poll.pollingInterval
 										td.text-left
 											input#pollEnabled(type="checkbox", name="pollEnabled", checked=poll.isEnabled)
 										td.text-left
-											button.btn.btn-sm.btn-default(type="button", value=poll.id) Remove
+											button.btn.btn-sm.btn-default(type="button", value=poll.id, onClick="RemovePoll(this)") Remove
 
 				.mastfoot
 					.inner
@@ -162,12 +164,15 @@ block body
 				'<td class="text-left">' +
 					'<input type="text" class="form-control new-polling-url" name="newPollingUrl"/>' +
 				'</td>' +
+				'<td class="text-left">' +
+					'<input type="text" class="form-control new-polling-interval" name="newPollingInterval"/>' +
+				'</td>' +
 				'<td class="text-left">' + 
 					'<input type="checkbox" class="form-control new-polling-enabled" name="newPollEnabled" checked></input>' + 
 				'</td>' + 
 				'<td class="text-left">' + 
 					'<button type="submit" class="btn btn-primary add-button-table-padding" onClick="AddPolling()">Add</button>' + 
-					'<button type="submit" class="btn btn-primary add-button-table-padding" onClick="CancelPolling()">Cancel</button>' + 
+					'<button type="submit" class="btn btn-primary add-button-table-padding" onClick="CancelAddPolling()">Cancel</button>' + 
 				'</td>' + 
 				'</tr>'
 
@@ -182,4 +187,62 @@ block body
 			}else{
 				$('#pollingTable > tbody:last-child').append(html);
 			}
+		};
+
+		function RemovePoll(item){
+			console.log(item.value);
+
+			let reqBody = {
+				id: item.value
+			}
+
+			fetch('/deletePoll', {
+				method: 'POST',
+				body: JSON.stringify(reqBody),
+				headers: {
+					"Content-Type": "application/json"
+				}
+			}).then(function(response){
+				if(response.ok){
+					location.reload();
+				}
+
+				throw new Error("Request failed.");
+			}).catch(function(error){
+				console.log(error);
+			});
+		}
+
+		function CancelAddPolling(){
+			$('.new-polling-row').remove();
+		};
+
+		function AddPolling(){
+			var newPollingAccessToken = $(".table-polling").find(".new-polling-token").val();
+			var newPollingEndpoint = $(".table-polling").find(".new-polling-url").val();
+			var newPollingInterval = $(".table-polling").find(".new-polling-interval").val();
+			var newPollingIsEnabled = $(".table-polling").find(".new-polling-enabled:checked").val();
+			
+			let reqBody = {
+				accessToken: newPollingAccessToken,
+				pollingUrl: newPollingEndpoint,
+				pollingInterval: newPollingInterval,
+				isEnabled: newPollingIsEnabled
+			};
+
+			fetch('/addNewPoll', {
+				method: 'POST',
+				body: JSON.stringify(reqBody),
+				headers: {
+					"Content-Type": "application/json"
+				}
+			}).then(function(response){
+				if(response.ok){
+					location.reload();
+				}
+				throw new Error("Request failed.");
+			}).catch(function(error){
+				console.log(error);
+			});
+
 		};

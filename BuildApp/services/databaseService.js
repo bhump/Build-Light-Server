@@ -95,9 +95,9 @@ async function DeleteWebhook(itemId) {
 async function DeletePoll(itemId) {
     try {
         await Poll.findByIdAndDelete(itemId);
-        return 'delete successful';
+        return true;
     } catch (err) {
-        return err;
+        return false;
     }
 };
 

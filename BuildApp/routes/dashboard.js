@@ -11,11 +11,11 @@ require('dotenv').config({
   
   /* GET home page. */
   router.get('/', async function (req, res, next) {
-  
     var hooks = await databaseService.GetWebhooks();
     var pollingList = await databaseService.GetPolling();
   
     InitializeWebhookRoutes(hooks);
+    InitializePolling();
   
     var availableHooks = [];
   
@@ -48,9 +48,7 @@ require('dotenv').config({
       var status = req.body.stage.state;
       var result = req.body.stage.result;
   
-      ledService.BuildLight(status, result);
-  
-      ledService.BuildLight(buildStatus, buildResult);
+      ledService.BuildLight(status, result);  
     });
   });
   
@@ -65,7 +63,9 @@ require('dotenv').config({
     let id = req.body.id;
     var isSuccess = await databaseService.DeletePoll(id);
     
-    res.send(isSuccess);
+    if(isSuccess){
+      res.send(isSuccess);
+    }
   });
   
   router.post('/addNewWebhook', async function (req, res) {
@@ -106,13 +106,6 @@ require('dotenv').config({
         var pollingList = await databaseService.GetPolling();
 
         res.status(200).send(availableHooks);
-
-        // res.render('dashboard', {
-        //     title: 'Lonely Sasquatch Status Hub',
-        //     project: 'Status Hub',
-        //     hooks: availableHooks,
-        //     polling: pollingList
-        // });
     }
 
   });
@@ -121,7 +114,7 @@ require('dotenv').config({
     var item = req.body;
     var isEnabled = false;
   
-    if (item.pollEnabled === 'on') {
+    if (item.isEnabled === 'on') {
       isEnabled = true;
     } else {
       isEnabled = false;
@@ -144,9 +137,9 @@ require('dotenv').config({
     var isSuccess = await databaseService.SaveNewPolling(poll);
   
     if(isSuccess){
-      azureService.SetPoll(poll.pollingUrl, item.accessToken, poll.pollingInterval);
+      //azureService.SetPoll(poll.pollingUrl, item.accessToken, poll.pollingInterval);
     }
-  
+
     res.send(isSuccess);
   });
   
@@ -173,9 +166,7 @@ require('dotenv').config({
   };
   
   function InitializePolling(){
-    //var pollingList = await databaseService.GetPolling();
-  
-  
+    azureService.InitializePollingBuilds();
   };
   
   module.exports = router;
