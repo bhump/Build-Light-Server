@@ -6,6 +6,7 @@ require('dotenv').config({
   var azureService = require('../services/azureService');
   var databaseService = require('../services/databaseService');
   var ledService = require('../services/ledService');
+  var displayService = require('../services/displayService');
   var notifier = require('../notifier');
   var router = express.Router();
   
@@ -154,9 +155,12 @@ require('dotenv').config({
         res.status(200).end();
   
         try {
+          var project = req.body.resource.pipeline.name;
+          var stage = req.body.resource.stage.name;
           var status = req.body.resource.stage.state;
           var result = req.body.resource.stage.result;
   
+          displayService.Display(project, stage, status, result);
           ledService.BuildLight(status, result);
         } catch (err) {
           console.log(err);
