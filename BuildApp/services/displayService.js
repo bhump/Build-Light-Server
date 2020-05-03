@@ -14,31 +14,39 @@ function Display(project, stage, status, result) {
         result = 'not available'
     }
 
-    const python = spawn('python', [scriptPath.toString(), project, stage, status, result]);
+    try {
+        const python = spawn('python', [scriptPath.toString(), project, stage, status, result]);
 
-    python.stdout.on('data', (data) => {
-        console.log('Pipe data from python script ...');
-        dataToSend += data;
-    });
+        python.stdout.on('data', (data) => {
+            console.log('Pipe data from python script ...');
+            dataToSend += data;
+        });
 
-    python.stdout.on('end', (code) => {
-        console.log(`child process close all stdio with code ${code}`);
-        // send data to browser
-        console.log(dataToSend);
-    });
+        python.stdout.on('end', (code) => {
+            console.log(`child process close all stdio with code ${code}`);
+            // send data to browser
+            console.log(dataToSend);
+        });
+    } catch (err) {
+        console.log(err);
+    }
 
-    const testPython = spawn('python', [testScriptPath.toString(), project, stage, status, result]);
+    try {
+        const testPython = spawn('python', [testScriptPath.toString(), project, stage, status, result]);
 
-    testPython.stdout.on('data', (data) => {
-        console.log('Pipe data from python script ...');
-        testDataToSend += data;
-    });
+        testPython.stdout.on('data', (data) => {
+            console.log('Pipe data from python script ...');
+            testDataToSend += data;
+        });
 
-    testPython.stdout.on('end', (code) => {
-        console.log(`child process close all stdio with code ${code}`);
-        // send data to browser
-        console.log(testDataToSend);
-    });
+        testPython.stdout.on('end', (code) => {
+            console.log(`child process close all stdio with code ${code}`);
+            // send data to browser
+            console.log(testDataToSend);
+        });
+    } catch (err) {
+        console.log(err);
+    }
 
 }
 
