@@ -4,8 +4,8 @@ const path = require('path')
 function Display(project, stage, status, result) {
     var dataToSend;
     var testDataToSend;
-    var scriptPath = path.resolve('BuildApp/e-paper/display.py');
-    var testScriptPath = path.resolve('BuildApp/e-paper/testDisplay.py');
+    var scriptPath = path.resolve('/e-paper/display.py');
+    var testScriptPath = path.resolve('/e-paper/testDisplay.py');
 
     console.log(scriptPath);
     console.log(testScriptPath);
