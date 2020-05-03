@@ -4,6 +4,8 @@ function BuildLight(status, result, led) {
     let buildStatus = status;
     let buildResult = result;
 
+    var display = spawn('python', ['/Users/humpy/Workspace/Build\ Light/BuildApp/e-paper/testDisplay.py', 'first', 'second', 'third', 'fourth']);
+
     //TODO: Enable once blinksticks are connected
     if (buildStatus === "inProgress" || buildStatus === "running") {
         //TODO: Add Build Light logic here for in motion builds

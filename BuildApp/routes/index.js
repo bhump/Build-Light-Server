@@ -1,16 +1,19 @@
+require('dotenv').config({
+  path: __dirname + '/./../../.env'
+});
 var express = require('express');
+var encrpytionService = require('../services/encryptionService');
 var azureService = require('../services/azureService');
 var databaseService = require('../services/databaseService');
 var ledService = require('../services/ledService');
 var notifier = require('../notifier');
 var router = express.Router();
 
-var newResponse = '';
-
 /* GET home page. */
 router.get('/', async function (req, res, next) {
 
   var hooks = await databaseService.GetWebhooks();
+  var pollingList = await databaseService.GetPolling();
 
   InitializeWebhookRoutes(hooks);
 
@@ -26,10 +29,11 @@ router.get('/', async function (req, res, next) {
     availableHooks.push(hookItem);
   });
 
-  res.render('index', {
+  res.render('dashboard', {
     title: 'Lonely Sasquatch Status Hub',
     project: 'Status Hub',
-    hooks: availableHooks
+    hooks: availableHooks,
+    polling: pollingList
   });
 
 });
@@ -52,10 +56,16 @@ notifier.on('newWebHookAdded', (message) => {
 
 router.post('/deleteWebhook', async function (req, res) {
   let id = req.body.id;
-
   var isSuccess = await databaseService.DeleteWebhook(id);
 
-  res.render(isSuccess);
+  res.send(isSuccess);
+});
+
+router.post('/deletePoll', async function(req, res){
+  let id = req.body.id;
+  var isSuccess = await databaseService.DeletePoll(id);
+  
+  res.send(isSuccess);
 });
 
 router.post('/addNewWebhook', async function (req, res) {
@@ -78,23 +88,36 @@ router.post('/addNewWebhook', async function (req, res) {
   res.send(isSuccess);
 });
 
-router.post('/addNewPoll', async function(req, res){
+router.post('/addNewPoll', async function (req, res) {
   var item = req.body;
   var isEnabled = false;
 
-  if(item.pollEnabled === 'on'){
+  if (item.pollEnabled === 'on') {
     isEnabled = true;
-  }else {
+  } else {
     isEnabled = false;
   }
 
-  var poll = {
-    'pollingUrl': item.pollUrl,
-    'accessToken': item.accessToken,
-    'isEnabled': isEnabled
+  var encryptedToken = await encrpytionService.Encrypt(item.accessToken);
+
+  var encryptionObject = {
+    encryptedData: encryptedToken.encryptedData,
+    iv: encryptedToken.iv
   }
-  
+
+  var poll = {
+    'pollingUrl': item.pollingUrl,
+    'accessToken': encryptionObject,
+    'isEnabled': isEnabled,
+    'pollingInterval': item.pollingInterval
+  }
+
   var isSuccess = await databaseService.SaveNewPolling(poll);
+
+  if(isSuccess){
+    azureService.SetPoll(poll.pollingUrl, item.accessToken, poll.pollingInterval);
+  }
+
   res.send(isSuccess);
 });
 
@@ -116,9 +139,13 @@ function InitializeWebhookRoutes(hooks) {
       } catch (err) {
         console.log(err);
       }
-
     });
   });
+};
+
+function InitializePolling(){
+  //var pollingList = await databaseService.GetPolling();
+
 
 };
 

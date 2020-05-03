@@ -1,4 +1,7 @@
-require('dotenv').config({path:__dirname+'/./../../.env'});
+require('dotenv').config({
+    path: __dirname + '/./../../.env'
+});
+var encrpytionService = require('../services/encryptionService.js');
 var notifier = require('../notifier')
 var mongoose = require("mongoose");
 
@@ -17,12 +20,29 @@ var webhookSchema = new mongoose.Schema({
 
 var pollingSchema = new mongoose.Schema({
     pollingUrl: String,
-    accessToken: String,
-    isEnabled: Boolean
+    accessToken: Object,
+    isEnabled: Boolean,
+    pollingInterval: Number
+});
+
+
+var userSchema = new mongoose.Schema({
+    email: {
+        type: String,
+        required: true,
+        unique: 1,
+        trim: true
+    },
+    password: {
+        type: Object,
+        required: true,
+        minlength: 6
+    },
 });
 
 var Webhook = mongoose.model("Webhook", webhookSchema);
 var Poll = mongoose.model("Poll", pollingSchema);
+var User = mongoose.model("User", userSchema);
 
 async function SaveNewWebhook(item) {
     var hookToAdd = Webhook(item);
@@ -42,10 +62,10 @@ async function SaveNewPolling(item) {
     try {
         await pollToAdd.save();
         console.log("item saved");
-        return "item saved"
+        return true;
     } catch (err) {
         console.log("Failed to add time: " + err);
-        return err;
+        return false;
     }
 };
 
@@ -75,11 +95,39 @@ async function DeleteWebhook(itemId) {
 async function DeletePoll(itemId) {
     try {
         await Poll.findByIdAndDelete(itemId);
-        return 'delete successful';
+        return true;
     } catch (err) {
-        return err;
+        return false;
     }
 };
+
+async function CreateAccount(item) {
+    // try {
+    //     var emailItem = item.Email;
+    //     var passwordHash = encrpytionService.Encrypt(item.password);
+
+    //     var newAccount = {
+    //         email = emailItem,
+    //         password = passwordHash
+    //     }
+
+    //     await User.save(newAccount);
+    //     return true;
+    // } catch (err) {
+    //     console.log(err);
+    //     return false;
+    // }
+};
+
+async function Login(item){
+    // try{
+
+    //     return true;
+    // }catch(err){
+    //     console.log(err);
+    //     return false;
+    // }
+}
 
 module.exports = {
     SaveNewWebhook,
@@ -87,5 +135,6 @@ module.exports = {
     GetWebhooks,
     GetPolling,
     DeleteWebhook,
-    DeletePoll
+    DeletePoll,
+    CreateAccount
 }
