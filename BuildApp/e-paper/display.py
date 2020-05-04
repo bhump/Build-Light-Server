@@ -5,7 +5,7 @@ import os
 basepath = os.path.abspath(__file__)
 parentdir = os.path.dirname(basepath)
 picdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic')
-libdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'waveshare_epd')
+libdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib')
 
 if os.path.exists(libdir):
     sys.path.append(libdir)
@@ -18,17 +18,18 @@ import traceback
 
 logging.basicConfig(level=logging.DEBUG)
 
-project = sys.argv[1]
-stage = sys.argv[2]
-status = sys.argv[3]
-stageResult = sys.argv[4]
 
 try:
 
-    logging.info(sys.argv[1])
-    logging.info(sys.argv[2])
-    logging.info(sys.argv[3])
-    logging.info(sys.argv[4])
+    print(sys.argv[1])
+    print(sys.argv[2])
+    print(sys.argv[3])
+    print(sys.argv[4])
+
+    project = sys.argv[1]
+    stage = sys.argv[2]
+    status = sys.argv[3]
+    stageResult = sys.argv[4]
 
     logging.info("epd2in13_V2 Custom")
 
@@ -71,8 +72,8 @@ try:
 
 except IOError as e:
     logging.info(e)
-
+    print(e)
 except KeyboardInterrupt:
     logging.info("ctrl + c:")
-    epd2in13_V2.epdconfig.module_exit()
+    #epd2in13_V2.epdconfig.module_exit()
     exit()

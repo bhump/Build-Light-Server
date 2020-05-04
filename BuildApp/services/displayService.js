@@ -4,8 +4,8 @@ const path = require('path')
 function Display(project, stage, status, result) {
     var dataToSend;
     var testDataToSend;
-    var scriptPath = path.resolve('/e-paper/display.py');
-    var testScriptPath = path.resolve('/e-paper/testDisplay.py');
+    var scriptPath = path.resolve('BuildApp/e-paper/display.py');
+    var testScriptPath = path.resolve('BuildApp/e-paper/testDisplay.py');
 
     console.log(scriptPath);
     console.log(testScriptPath);
@@ -18,12 +18,12 @@ function Display(project, stage, status, result) {
         const python = spawn('python', [scriptPath.toString(), project, stage, status, result]);
 
         python.stdout.on('data', (data) => {
-            console.log('Pipe data from python script ...');
+            console.log('Pipe data from display.py');
             dataToSend += data;
         });
 
         python.stdout.on('end', (code) => {
-            console.log(`child process close all stdio with code ${code}`);
+            console.log(`dispaly.py child process close all stdio with code ${code}`);
             // send data to browser
             console.log(dataToSend);
         });
@@ -35,12 +35,12 @@ function Display(project, stage, status, result) {
         const testPython = spawn('python', [testScriptPath.toString(), project, stage, status, result]);
 
         testPython.stdout.on('data', (data) => {
-            console.log('Pipe data from python script ...');
+            console.log('Pipe data from testDisplay.py ...');
             testDataToSend += data;
         });
 
         testPython.stdout.on('end', (code) => {
-            console.log(`child process close all stdio with code ${code}`);
+            console.log(`testDisplay.py child process close all stdio with code ${code}`);
             // send data to browser
             console.log(testDataToSend);
         });
