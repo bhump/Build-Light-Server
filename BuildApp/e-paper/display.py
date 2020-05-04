@@ -48,9 +48,9 @@ try:
     statusString = ''
     if(status == 'inProgress'):
         statusString = 'In Progress'
-    elif (status == 'completed' & stageResult == 'succeeded'):
+    elif (status == 'completed' and stageResult == 'succeeded'):
         statusString = 'Stage Succeeded'
-    elif (status == 'completed' & stageResult == 'failed'):
+    elif (status == 'completed' and stageResult == 'failed'):
         statusString = 'Stage Failed'        
     draw.text((120, 80), statusString, font=font24, fill=0)
     epd.displayPartial(epd.getbuffer(image))
