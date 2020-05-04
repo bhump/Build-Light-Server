@@ -35,7 +35,6 @@ try:
     font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
 
     # # partial update
-    logging.info("4.show Progress...")
     image = Image.new('1', (epd.height, epd.width), 255)
     draw = ImageDraw.Draw(image)
 
@@ -45,6 +44,7 @@ try:
     epd.init(epd.PART_UPDATE)
     draw.rectangle((120, 80, 220, 105), fill=255)
     draw.text((10, 10), project, font=font24, fill=0)
+    draw.text((70, 10), stage, font=font24, fill=0)
     statusString = ''
     if(status == 'inProgress'):
         statusString = 'In Progress'
@@ -61,8 +61,9 @@ try:
     epd.init(epd.FULL_UPDATE)
     epd.Clear(0xFF)
 
-    logging.info("Goto Sleep...")
-    epd.sleep()
+    if(status == 'completed'):
+        logging.info("Goto Sleep...")
+        epd.sleep()
 
     print(sys.argv[1])
     print(sys.argv[2])
