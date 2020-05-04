@@ -44,7 +44,7 @@ try:
     epd.init(epd.PART_UPDATE)
     draw.rectangle((120, 80, 220, 105), fill=255)
     draw.text((10, 10), project, font=font24, fill=0)
-    draw.text((70, 10), stage, font=font24, fill=0)
+    draw.text((10, 45), stage, font=font24, fill=0)
     statusString = ''
     if(status == 'inProgress' or 'running'):
         statusString = 'In Progress'
@@ -52,7 +52,7 @@ try:
         statusString = 'Stage Succeeded'
     elif (status == 'completed' and stageResult == 'failed'):
         statusString = 'Stage Failed'        
-    draw.text((120, 80), statusString, font=font24, fill=0)
+    draw.text((100, 80), statusString, font=font24, fill=0)
     epd.displayPartial(epd.getbuffer(image))
 
     time.sleep(10)
