@@ -20,12 +20,6 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 try:
-
-    print(sys.argv[1])
-    print(sys.argv[2])
-    print(sys.argv[3])
-    print(sys.argv[4])
-
     project = sys.argv[1]
     stage = sys.argv[2]
     status = sys.argv[3]
@@ -69,6 +63,11 @@ try:
 
     logging.info("Goto Sleep...")
     epd.sleep()
+
+    print(sys.argv[1])
+    print(sys.argv[2])
+    print(sys.argv[3])
+    print(sys.argv[4])
 
 except IOError as e:
     logging.info(e)
