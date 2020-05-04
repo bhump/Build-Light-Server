@@ -46,7 +46,7 @@ try:
     draw.text((10, 10), project, font=font24, fill=0)
     draw.text((70, 10), stage, font=font24, fill=0)
     statusString = ''
-    if(status == 'inProgress'):
+    if(status == 'inProgress' or 'running'):
         statusString = 'In Progress'
     elif (status == 'completed' and stageResult == 'succeeded'):
         statusString = 'Stage Succeeded'
