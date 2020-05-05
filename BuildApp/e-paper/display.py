@@ -58,13 +58,13 @@ try:
         statusString = 'In Progress'
         print('In Progress')
     elif status == 'completed' and stageResult == 'succeeded':
-        statusString = 'Stage Succeeded'
+        statusString = 'Succeeded'
         print('Stage Succeeded')
     elif status == 'completed' and stageResult == 'failed':
-        statusString = 'Stage Failed'
+        statusString = 'Failed'
         print('Stage Failed')
 
-    draw.text((70, 80), statusString, font=font24, fill=0)
+    draw.text((10, 80), statusString, font=font24, fill=0)
     epd.displayPartial(epd.getbuffer(image))
 
     if status == 'completed':
