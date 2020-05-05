@@ -27,9 +27,11 @@ try:
     logging.info("epd2in13_V2 Custom")
 
     epd = epd2in13_V2.EPD()
-    logging.info("init and Clear")
-    epd.init(epd.FULL_UPDATE)
-    epd.Clear(0xFF)
+    
+    if status == 'inProgress' or 'running':    
+        logging.info("init and Clear")
+        epd.init(epd.FULL_UPDATE)
+        epd.Clear(0xFF)
 
     # Drawing on the image
     font20 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 20)
@@ -58,13 +60,12 @@ try:
 
     time.sleep(10)
 
-    logging.info("Clear...")
-    epd.init(epd.FULL_UPDATE)
-    epd.Clear(0xFF)
-
-    #if(status == 'completed'):
-    logging.info("Goto Sleep...")
-    epd.sleep()
+    if status == 'completed':
+        logging.info("Clear...")
+        epd.init(epd.FULL_UPDATE)
+        epd.Clear(0xFF)
+        logging.info("Goto Sleep...")
+        epd.sleep()
 
     print(sys.argv[1])
     print(sys.argv[2])
