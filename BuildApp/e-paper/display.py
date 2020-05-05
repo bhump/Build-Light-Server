@@ -34,11 +34,6 @@ try:
 
     epd = epd2in13_V2.EPD()
     
-    if status == 'inProgress' or 'running':    
-        logging.info("init and Clear")
-        epd.init(epd.FULL_UPDATE)
-        epd.Clear(0xFF)
-
     # Drawing on the image
     font20 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 20)
     font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
@@ -47,23 +42,28 @@ try:
     image = Image.new('1', (epd.height, epd.width), 255)
     draw = ImageDraw.Draw(image)
 
-    epd.init(epd.FULL_UPDATE)
-    epd.displayPartBaseImage(epd.getbuffer(image))
+    if status == 'inProgress' or status == 'running':    
+        logging.info("init and Clear")
+        epd.init(epd.FULL_UPDATE)
+        #epd.Clear(0xFF)
+        epd.displayPartBaseImage(epd.getbuffer(image))
 
     epd.init(epd.PART_UPDATE)
     draw.rectangle((120, 80, 220, 105), fill=255)
     draw.text((10, 10), project, font=font24, fill=0)
     draw.text((10, 45), stage, font=font24, fill=0)
     statusString = ''
-    if(status == 'inProgress' or 'running'):
+
+    if status == 'inProgress' or status == 'running':
         statusString = 'In Progress'
         print('In Progress')
-    elif (status == 'completed' and stageResult == 'succeeded'):
+    elif status == 'completed' and stageResult == 'succeeded':
         statusString = 'Stage Succeeded'
         print('Stage Succeeded')
-    elif (status == 'completed' and stageResult == 'failed'):
+    elif status == 'completed' and stageResult == 'failed':
         statusString = 'Stage Failed'
         print('Stage Failed')
+
     draw.text((100, 80), statusString, font=font24, fill=0)
     epd.displayPartial(epd.getbuffer(image))
 
