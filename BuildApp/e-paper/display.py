@@ -67,13 +67,12 @@ try:
     draw.text((10, 80), statusString, font=font24, fill=0)
     epd.displayPartial(epd.getbuffer(image))
 
-    if status == 'completed':
-        time.sleep(15)
-        logging.info("Clear...")
-        epd.init(epd.FULL_UPDATE)
-        epd.Clear(0xFF)
-        logging.info("Goto Sleep...")
-        epd.sleep()
+    time.sleep(300)
+    logging.info("Clear...")
+    epd.init(epd.FULL_UPDATE)
+    epd.Clear(0xFF)
+    logging.info("Goto Sleep...")
+    epd.sleep()
 
     print(sys.argv[1])
     print(sys.argv[2])
