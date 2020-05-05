@@ -19,6 +19,12 @@ import traceback
 logging.basicConfig(level=logging.DEBUG)
 
 try:
+
+    project = ''
+    stage = ''
+    status = ''
+    stageResult = ''
+
     project = sys.argv[1]
     stage = sys.argv[2]
     status = sys.argv[3]
@@ -51,16 +57,18 @@ try:
     statusString = ''
     if(status == 'inProgress' or 'running'):
         statusString = 'In Progress'
+        print('In Progress')
     elif (status == 'completed' and stageResult == 'succeeded'):
         statusString = 'Stage Succeeded'
+        print('Stage Succeeded')
     elif (status == 'completed' and stageResult == 'failed'):
-        statusString = 'Stage Failed'        
+        statusString = 'Stage Failed'
+        print('Stage Failed')
     draw.text((100, 80), statusString, font=font24, fill=0)
     epd.displayPartial(epd.getbuffer(image))
 
-    time.sleep(10)
-
     if status == 'completed':
+        time.sleep(30)
         logging.info("Clear...")
         epd.init(epd.FULL_UPDATE)
         epd.Clear(0xFF)
