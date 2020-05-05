@@ -64,11 +64,11 @@ try:
         statusString = 'Stage Failed'
         print('Stage Failed')
 
-    draw.text((100, 80), statusString, font=font24, fill=0)
+    draw.text((70, 80), statusString, font=font24, fill=0)
     epd.displayPartial(epd.getbuffer(image))
 
     if status == 'completed':
-        time.sleep(30)
+        time.sleep(15)
         logging.info("Clear...")
         epd.init(epd.FULL_UPDATE)
         epd.Clear(0xFF)
