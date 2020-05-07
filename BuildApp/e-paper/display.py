@@ -2,6 +2,8 @@
 # -*- coding:utf-8 -*-
 import sys
 import os
+from datetime import datetime
+from datetime import timedelta
 basepath = os.path.abspath(__file__)
 parentdir = os.path.dirname(basepath)
 picdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pic')
@@ -20,6 +22,18 @@ logging.basicConfig(level=logging.DEBUG)
 
 try:
 
+    run_time = datetime.now() + timedelta(minutes=2)
+
+    openFile = open("pyinit.txt", "r")
+    
+    isInit = openFile.readline()
+
+    if isInit == '':
+        f = open("pyinit.txt", "w")
+        isInit = "False"
+        f.write("False")
+        f.close()
+    
     project = ''
     stage = ''
     status = ''
@@ -42,10 +56,13 @@ try:
     image = Image.new('1', (epd.height, epd.width), 255)
     draw = ImageDraw.Draw(image)
 
-    if status == 'inProgress' or status == 'running':    
+    if isInit == "False":
+        f = open("pyinit.txt", "w")
+        f.write("True")
+        f.close()
         logging.info("init and Clear")
         epd.init(epd.FULL_UPDATE)
-        #epd.Clear(0xFF)
+        # epd.Clear(0xFF)
         epd.displayPartBaseImage(epd.getbuffer(image))
 
     epd.init(epd.PART_UPDATE)
@@ -67,17 +84,15 @@ try:
     draw.text((10, 80), statusString, font=font24, fill=0)
     epd.displayPartial(epd.getbuffer(image))
 
-    time.sleep(300)
-    logging.info("Clear...")
-    epd.init(epd.FULL_UPDATE)
-    epd.Clear(0xFF)
-    logging.info("Goto Sleep...")
-    epd.sleep()
-
-    print(sys.argv[1])
-    print(sys.argv[2])
-    print(sys.argv[3])
-    print(sys.argv[4])
+    if run_time < datetime.now():
+        logging.info("Clear...")
+        epd.init(epd.FULL_UPDATE)
+        epd.Clear(0xFF)
+        logging.info("Goto Sleep...")
+        epd.sleep()
+        f = open("pyinit.txt", "w")
+        f.write("False")
+        f.close()
 
 except IOError as e:
     logging.info(e)

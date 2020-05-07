@@ -154,5 +154,6 @@ stages:
                     
                     cd deploy/BuildApp
                     
-                    # npm start
+                    nohup npm start &
+                    exit
                   readyTimeout: '20000'

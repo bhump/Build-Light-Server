@@ -24,7 +24,7 @@ function Display(project, stage, status, result) {
             dataToSend += data;
         });
 
-        python.stdout.on('end', (code) => {
+        python.stdout.on('close', (code) => {
             console.log(`dispaly.py child process close all stdio with code ${code}`);
             // send data to browser
             console.log(dataToSend);
@@ -41,7 +41,7 @@ function Display(project, stage, status, result) {
             testDataToSend += data;
         });
 
-        testPython.stdout.on('end', (code) => {
+        testPython.stdout.on('close', (code) => {
             console.log(`testDisplay.py child process close all stdio with code ${code}`);
             // send data to browser
             console.log(testDataToSend);
