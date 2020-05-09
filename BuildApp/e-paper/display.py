@@ -85,7 +85,7 @@ try:
     epd.displayPartial(epd.getbuffer(image))
 
     if status == 'completed':
-        time.sleep(1)
+        time.sleep(30)
         logging.info("Clear...")
         epd.init(epd.FULL_UPDATE)
         epd.Clear(0xFF)

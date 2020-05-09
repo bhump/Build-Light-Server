@@ -157,4 +157,5 @@ stages:
                     nohup npm start &
                     echo "service started"
                     exit
+                    echo "just exit please"
                   readyTimeout: '20000'
