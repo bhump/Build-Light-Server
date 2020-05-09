@@ -158,4 +158,5 @@ stages:
                     echo "service started"
                     exit
                     echo "just exit please"
+                    quit
                   readyTimeout: '20000'
