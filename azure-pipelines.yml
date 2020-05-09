@@ -155,5 +155,6 @@ stages:
                     cd deploy/BuildApp
                     
                     nohup npm start &
+                    echo "service started"
                     exit
                   readyTimeout: '20000'

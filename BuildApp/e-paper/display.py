@@ -84,7 +84,7 @@ try:
     draw.text((10, 80), statusString, font=font24, fill=0)
     epd.displayPartial(epd.getbuffer(image))
 
-    if run_time < datetime.now():
+    if status == 'completed':
         logging.info("Clear...")
         epd.init(epd.FULL_UPDATE)
         epd.Clear(0xFF)
