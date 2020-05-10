@@ -161,7 +161,7 @@ function InitializeWebhookRoutes(hooks) {
         var status = '';
         var result = '';
 
-        if (req.body.resource.pipeline != undefined) {
+        if (req.body.resource.stage != undefined) {
           project = req.body.resource.pipeline.name;
           stage = req.body.resource.stage.name;
           status = req.body.resource.stage.state;
