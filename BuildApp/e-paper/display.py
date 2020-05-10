@@ -89,11 +89,11 @@ try:
         logging.info("Clear...")
         epd.init(epd.FULL_UPDATE)
         epd.Clear(0xFF)
-        logging.info("Goto Sleep...")
-        epd.sleep()
-        f = open("pyinit.txt", "w")
-        f.write("False")
-        f.close()
+        # logging.info("Goto Sleep...")
+        # epd.sleep()
+        # f = open("pyinit.txt", "w")
+        # f.write("False")
+        # f.close()
 
 except IOError as e:
     logging.info(e)

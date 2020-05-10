@@ -161,19 +161,17 @@ function InitializeWebhookRoutes(hooks) {
         var status = '';
         var result = '';
 
-        if (req.body.resource.run != undefined) {
-          project = req.body.resource.pipeline.name;
-          // stage = req.body.resource.run.createdDate;
-          status = req.body.resource.run.state;
-          result = req.body.resource.run.result;
-        } else {
+        if (req.body.resource.pipeline != undefined) {
           project = req.body.resource.pipeline.name;
           stage = req.body.resource.stage.name;
           status = req.body.resource.stage.state;
           result = req.body.resource.stage.result;
+        } else if (req.body.resource.run != undefined) {
+          project = req.body.resource.pipeline.name;
+          // stage = req.body.resource.run.createdDate;
+          status = req.body.resource.run.state;
+          result = req.body.resource.run.result;
         }
-
-
 
         displayService.Display(project, stage, status, result);
         ledService.BuildLight(status, result);
