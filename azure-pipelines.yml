@@ -99,7 +99,7 @@ stages:
 
                     ls
                     echo "changing directory"
-                    cd $(System.ArtifactsDirectory)/server-drop/deploy/BuildApp
+                    cd $(System.ArtifactsDirectory)/server-drop/deploy
                     
                     echo "current .env file"
                     cat .env
