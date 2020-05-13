@@ -9,15 +9,14 @@ var ledService = require('../services/ledService');
 var displayService = require('../services/displayService');
 var notifier = require('../notifier');
 var router = express.Router();
-var accessControl = require('express-ip-access-control');
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
 
-  var whitelist = ['2600:2b00:8d46:7900:54da:9362:1270:cc07', '127.0.0.1', '192.168.1.178', '192.168.1.1'];
+  var whitelist = ['::ffff:2600:2b00:8d46:7900:54da:9362:1270:cc07', '::ffff:127.0.0.1', '::ffff:192.168.1.178', '::ffff:192.168.1.1', '::1'];
+  var requestIP = req.connection.remoteAddress;
 
-  var isWhitelisted = accessControl.ipMatch(req.connection.remoteAddress, whitelist);
-  if (isWhitelisted) {
+  if (whitelist.indexOf(requestIP) >= 0) {
     var hooks = await databaseService.GetWebhooks();
     var pollingList = await databaseService.GetPolling();
 
@@ -42,7 +41,7 @@ router.get('/', async function (req, res, next) {
       hooks: availableHooks,
       polling: pollingList
     });
-  }else{
+  } else {
     res.send("Unauthorized");
   }
 
