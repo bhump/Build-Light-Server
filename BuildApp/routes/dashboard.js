@@ -16,7 +16,8 @@ router.get('/', async function (req, res, next) {
   var whitelist = ['::ffff:2600:2b00:8d46:7900:54da:9362:1270:cc07', '::ffff:127.0.0.1', '::ffff:192.168.1.178', '::ffff:192.168.1.1', '::1', '::ffff:192.24.191.141'];
   var requestIP = req.connection.remoteAddress;
 
-  if (whitelist.indexOf(requestIP) >= 0) {
+  console.log(requestIP);
+  // if (whitelist.indexOf(requestIP) >= 0) {
     var hooks = await databaseService.GetWebhooks();
     var pollingList = await databaseService.GetPolling();
 
@@ -41,9 +42,9 @@ router.get('/', async function (req, res, next) {
       hooks: availableHooks,
       polling: pollingList
     });
-  } else {
-    res.send("Unauthorized");
-  }
+  // } else {
+  //   res.send("Unauthorized");
+  // }
 
 });
 
