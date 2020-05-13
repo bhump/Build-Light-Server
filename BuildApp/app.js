@@ -4,21 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('morgan');
-var AccessControl = require('express-ip-access-control');
- 
-var options = {
-	mode: 'deny',
-	denys: [],
-	allows: ['2600:2b00:8d46:7900:54da:9362:1270:cc07'],
-	forceConnectionAddress: false,
-	log: function(clientIp, access) {
-		console.log(clientIp + (access ? ' accessed.' : ' denied.'));
-	},
-
-	statusCode: 401,
-	redirectTo: '',
-	message: 'Unauthorized'
-};
 
 var dashboardRouter = require('./routes/dashboard');
 var indexRouter = require('./routes/index');
