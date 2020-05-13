@@ -13,7 +13,7 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', async function (req, res, next) {
 
-  var whitelist = ['::ffff:2600:2b00:8d46:7900:54da:9362:1270:cc07', '::ffff:127.0.0.1', '::ffff:192.168.1.178', '::ffff:192.168.1.1', '::1'];
+  var whitelist = ['::ffff:2600:2b00:8d46:7900:54da:9362:1270:cc07', '::ffff:127.0.0.1', '::ffff:192.168.1.178', '::ffff:192.168.1.1', '::1', '::ffff:192.24.191.141'];
   var requestIP = req.connection.remoteAddress;
 
   if (whitelist.indexOf(requestIP) >= 0) {
