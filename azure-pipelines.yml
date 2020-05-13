@@ -100,10 +100,6 @@ stages:
                     ls
                     echo "changing directory"
                     cd $(System.ArtifactsDirectory)/server-drop/deploy/BuildApp
-
-                    pm2 stop ./bin/www
-
-                    cd ..
                     
                     echo "current .env file"
                     cat .env
@@ -157,6 +153,8 @@ stages:
                     unzip deploy.zip -d deploy
                     
                     cd deploy/BuildApp
+
+                    pm2 stop ./bin/www
                     
                     nohup pm2 start ./bin/www
                     echo "service started"
