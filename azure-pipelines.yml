@@ -34,7 +34,7 @@ stages:
         - script: |
             cd BuildApp
             npm install
-            yarn install
+            # yarn install
 
         - task: ArchiveFiles@2
           displayName: Zip App
