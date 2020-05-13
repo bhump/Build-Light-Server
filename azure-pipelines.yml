@@ -99,7 +99,11 @@ stages:
 
                     ls
                     echo "changing directory"
-                    cd $(System.ArtifactsDirectory)/server-drop/deploy
+                    cd $(System.ArtifactsDirectory)/server-drop/deploy/BuildApp
+
+                    pm2 stop ./bin/www
+
+                    cd ..
                     
                     echo "current .env file"
                     cat .env
@@ -154,9 +158,8 @@ stages:
                     
                     cd deploy/BuildApp
                     
-                    # nohup npm start &
-                    # echo "service started"
-                    # exit
-                    # echo "just exit please"
-                    # quit
+                    nohup pm2 start ./bin/www
+                    echo "service started"
+                    exit
+                    echo "just exit please"
                   readyTimeout: '20000'

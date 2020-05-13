@@ -9,33 +9,42 @@ var ledService = require('../services/ledService');
 var displayService = require('../services/displayService');
 var notifier = require('../notifier');
 var router = express.Router();
+var accessControl = require('express-ip-access-control');
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
-  var hooks = await databaseService.GetWebhooks();
-  var pollingList = await databaseService.GetPolling();
 
-  InitializeWebhookRoutes(hooks);
-  InitializePolling();
+  var whitelist = ['2600:2b00:8d46:7900:54da:9362:1270:cc07', '127.0.0.1', '192.168.1.178', '192.168.1.1'];
 
-  var availableHooks = [];
+  var isWhitelisted = accessControl.ipMatch(req.connection.remoteAddress, whitelist);
+  if (isWhitelisted) {
+    var hooks = await databaseService.GetWebhooks();
+    var pollingList = await databaseService.GetPolling();
 
-  hooks.forEach(item => {
-    var hookItem = {
-      'id': item.id,
-      'hookUrl': item.hookUrl,
-      'isEnabled': item.isEnabled
-    }
+    InitializeWebhookRoutes(hooks);
+    InitializePolling();
 
-    availableHooks.push(hookItem);
-  });
+    var availableHooks = [];
 
-  res.render('dashboard', {
-    title: 'Lonely Sasquatch Status Hub',
-    project: 'Status Hub',
-    hooks: availableHooks,
-    polling: pollingList
-  });
+    hooks.forEach(item => {
+      var hookItem = {
+        'id': item.id,
+        'hookUrl': item.hookUrl,
+        'isEnabled': item.isEnabled
+      }
+
+      availableHooks.push(hookItem);
+    });
+
+    res.render('dashboard', {
+      title: 'Lonely Sasquatch Status Hub',
+      project: 'Status Hub',
+      hooks: availableHooks,
+      polling: pollingList
+    });
+  }else{
+    res.send("Unauthorized");
+  }
 
 });
 
@@ -166,7 +175,7 @@ function InitializeWebhookRoutes(hooks) {
           stage = req.body.resource.stage.name;
           status = req.body.resource.stage.state;
           result = req.body.resource.stage.result;
-        } else{
+        } else {
           project = req.body.resource.pipeline.name;
           // stage = req.body.resource.run.createdDate;
           status = req.body.resource.run.state;
