@@ -90,7 +90,7 @@ try:
         epd.init(epd.FULL_UPDATE)
         epd.Clear(0xFF)
         logging.info("Goto Sleep...")
-        epd.sleep()
+        #epd.sleep()
         f = open("pyinit.txt", "w")
         f.write("False")
         f.close()
