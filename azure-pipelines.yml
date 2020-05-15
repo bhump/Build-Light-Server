@@ -159,5 +159,4 @@ stages:
                     nohup pm2 start ./bin/www
                     echo "service started"
                     exit
-                    echo "just exit please"
                   readyTimeout: '20000'
