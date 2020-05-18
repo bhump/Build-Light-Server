@@ -184,7 +184,7 @@ function InitializeWebhookRoutes(hooks) {
 
         ledService.BuildLight(status, result);
 
-        setTimeout(displayStatus, 5000)
+        displayService.Display(project, stage, status, result);
 
       } catch (err) {
         console.log(err);
@@ -192,10 +192,6 @@ function InitializeWebhookRoutes(hooks) {
     });
   });
 };
-
-function displayStatus(){
-  displayService.Display(project, stage, status, result);
-}
 
 function InitializePolling() {
   azureService.InitializePollingBuilds();
