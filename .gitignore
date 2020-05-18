@@ -11,3 +11,5 @@ BuildApp/node_modules
 .DS_Store
 
 *.pyc
+
+*.code-workspace

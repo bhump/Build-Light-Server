@@ -182,14 +182,20 @@ function InitializeWebhookRoutes(hooks) {
           result = req.body.resource.run.result;
         }
 
-        displayService.Display(project, stage, status, result);
         ledService.BuildLight(status, result);
+
+        setTimeout(displayStatus, 5000)
+
       } catch (err) {
         console.log(err);
       }
     });
   });
 };
+
+function displayStatus(){
+  displayService.Display(project, stage, status, result);
+}
 
 function InitializePolling() {
   azureService.InitializePollingBuilds();
