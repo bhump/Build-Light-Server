@@ -21,7 +21,7 @@ async function Display(project, stage, status, result) {
     console.log('First Now Date ' + Date.now());
     console.log('First Expire Date' + expireDate);
 
-    expireDate.setMinutes(expireDate.getMinutes() + 30);
+    expireDate.setMinutes(expireDate.getMinutes() + 1);
 
     console.log('Expire Date' + expireDate);
     console.log('Now Date ' + Date.now());
