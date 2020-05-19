@@ -39,6 +39,12 @@ async function Display(project, stage, status, result) {
     var settings = await databaseService.GetDisplaySettings();
 
     if(settings.isInitiated == false){
+        var item = {
+            'displayId': '1',
+            'isInitiated': true,
+            'dateInitiated': Date.now()
+        };
+
         var isSuccess = databaseService.UpdateDisplaySettings(item);
         if(isSuccess){
             isExpired = false;
