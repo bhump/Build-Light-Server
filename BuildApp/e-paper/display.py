@@ -26,7 +26,7 @@ try:
 
     # openFile = open("pyinit.txt", "r")
     
-    isInit = openFile.readline()
+    # isInit = openFile.readline()
 
     # if isInit == '':
     #     f = open("pyinit.txt", "w")
