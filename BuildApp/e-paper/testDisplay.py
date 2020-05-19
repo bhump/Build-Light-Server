@@ -48,8 +48,11 @@ except IOError as e:
 # print(picdir)
 # print(libdir)
 
-# print('#Hello from python#')
-# print('First param:'+sys.argv[1]+'#')
-# print('Second param:'+sys.argv[2]+'#')
-# print('Third param:'+sys.argv[3]+'#')
-# print('Fourth param:'+sys.argv[4]+'#')
+print('#Hello from python#')
+print('First param:'+sys.argv[1]+'#')
+print('Second param:'+sys.argv[2]+'#')
+print('Third param:'+sys.argv[3]+'#')
+print('Fourth param:'+sys.argv[4]+'#')
+print('Fifth param:'+sys.argv[5]+'#')
+print('Six param:'+sys.argv[6]+'#')
+
