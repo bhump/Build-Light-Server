@@ -175,6 +175,23 @@ function InitializeWebhookRoutes(hooks) {
           stage = req.body.resource.stage.name;
           status = req.body.resource.stage.state;
           result = req.body.resource.stage.result;
+
+          // var isCompleted = false;
+
+          // if(status === 'running'){
+          //   isCompleted = false;
+          // }else if(status === 'completed'){
+          //   isCompleted = true;
+          // }
+
+          // var run = {
+          //   'runId': req.body.resource.runId,
+          //   'createdDate': req.body.createdDate,
+          //   'stageName': req.body.resource.stage.name,
+          //   '' 
+          // }
+
+          // databaseService.SaveRun();
         } else {
           project = req.body.resource.pipeline.name;
           // stage = req.body.resource.run.createdDate;

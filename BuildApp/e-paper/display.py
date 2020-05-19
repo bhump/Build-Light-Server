@@ -22,17 +22,17 @@ logging.basicConfig(level=logging.DEBUG)
 
 try:
 
-    run_time = datetime.now() + timedelta(minutes=2)
+    # run_time = datetime.now() + timedelta(minutes=2)
 
-    openFile = open("pyinit.txt", "r")
+    # openFile = open("pyinit.txt", "r")
     
     isInit = openFile.readline()
 
-    if isInit == '':
-        f = open("pyinit.txt", "w")
-        isInit = "False"
-        f.write("False")
-        f.close()
+    # if isInit == '':
+    #     f = open("pyinit.txt", "w")
+    #     isInit = "False"
+    #     f.write("False")
+    #     f.close()
     
     project = ''
     stage = ''
@@ -56,14 +56,14 @@ try:
     image = Image.new('1', (epd.height, epd.width), 255)
     draw = ImageDraw.Draw(image)
 
-    if isInit == "False":
-        f = open("pyinit.txt", "w")
-        f.write("True")
-        f.close()
-        logging.info("init and Clear")
-        epd.init(epd.FULL_UPDATE)
-        epd.Clear(0xFF)
-        epd.displayPartBaseImage(epd.getbuffer(image))
+    # if isInit == "False":
+    #     f = open("pyinit.txt", "w")
+    #     f.write("True")
+    #     f.close()
+    #     logging.info("init and Clear")
+    #     epd.init(epd.FULL_UPDATE)
+    #     epd.Clear(0xFF)
+    #     epd.displayPartBaseImage(epd.getbuffer(image))
 
     epd.init(epd.PART_UPDATE)
     draw.rectangle((120, 80, 220, 105), fill=255)
@@ -84,16 +84,16 @@ try:
     draw.text((10, 80), statusString, font=font24, fill=0)
     epd.displayPartial(epd.getbuffer(image))
 
-    if status == 'completed':
-        time.sleep(5)
-        logging.info("Clear...")
-        epd.init(epd.FULL_UPDATE)
-        epd.Clear(0xFF)
-        logging.info("Goto Sleep...")
-        #epd.sleep()
-        f = open("pyinit.txt", "w")
-        f.write("False")
-        f.close()
+    # if status == 'completed':
+    #     time.sleep(5)
+    #     logging.info("Clear...")
+    #     epd.init(epd.FULL_UPDATE)
+    #     epd.Clear(0xFF)
+    #     logging.info("Goto Sleep...")
+    #     #epd.sleep()
+    #     f = open("pyinit.txt", "w")
+    #     f.write("False")
+    #     f.close()
 
 except IOError as e:
     logging.info(e)

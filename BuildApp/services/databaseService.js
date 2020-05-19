@@ -25,7 +25,6 @@ var pollingSchema = new mongoose.Schema({
     pollingInterval: Number
 });
 
-
 var userSchema = new mongoose.Schema({
     email: {
         type: String,
@@ -40,9 +39,26 @@ var userSchema = new mongoose.Schema({
     },
 });
 
+var runSchema = new mongoose.Schema({
+    runId: String,
+    createdDate: Date,
+    stageName: String,
+    isCompleted: Boolean,
+    runCompleteTime: Date,
+    dateCreated: Date
+});
+
+var displayStateSchema = new mongoose.Schema({
+    displayId: String,
+    isInitiated: Boolean,
+    dateInitiated: Date
+});
+
 var Webhook = mongoose.model("Webhook", webhookSchema);
 var Poll = mongoose.model("Poll", pollingSchema);
 var User = mongoose.model("User", userSchema);
+var Run = mongoose.model("Run", runSchema);
+var Display = mongoose.model("Display", displayStateSchema);
 
 async function SaveNewWebhook(item) {
     var hookToAdd = Webhook(item);
@@ -101,6 +117,48 @@ async function DeletePoll(itemId) {
     }
 };
 
+async function SaveRun(item){
+    try{
+        var runToAdd = Run(item);
+        await runToAdd.save();
+        return true;
+    }catch(err){
+        return false;
+    }
+};
+
+async function GetRuns(){
+    try{
+        var query = Run.find();
+        query instanceof mongoose.Query;
+        var runs = await query;
+        return runs;
+    }catch(err){
+        console.log(err);
+        return null;
+    }
+};
+
+async function UpdateDisplaySettings(item){
+    try{
+        var query = {'displayId': '1'};
+        
+        Display.findOneAndUpdate(query, item, {upsert: true}, function(err, doc){
+            return true;
+        });
+    }catch(err){
+        return false;
+    }
+};
+
+async function GetDisplaySettings(){
+    var query = { displayId: '1'};
+    var display = Display.findOne(query);
+    display instanceof mongoose.Query;
+    var results = await display; 
+    return results;
+};
+
 async function CreateAccount(item) {
     // try {
     //     var emailItem = item.Email;
@@ -136,5 +194,9 @@ module.exports = {
     GetPolling,
     DeleteWebhook,
     DeletePoll,
-    CreateAccount
+    CreateAccount,
+    SaveRun,
+    GetRuns,
+    UpdateDisplaySettings,
+    GetDisplaySettings
 }
