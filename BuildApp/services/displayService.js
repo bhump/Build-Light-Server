@@ -17,6 +17,9 @@ var expireDate = new Date;
 async function Display(project, stage, status, result) {
     var dataToSend;
     var testDataToSend;
+
+    var isExpired = false;
+    var nowDate = new Date();
     
     console.log('First Now Date ' + Date.now());
     console.log('First Expire Date' + expireDate);
@@ -35,13 +38,17 @@ async function Display(project, stage, status, result) {
 
     var settings = await databaseService.GetDisplaySettings();
 
-    var isExpired = false;
-    var nowDate = new Date();
+    if(settings.isInitiated == false){
+        var isSuccess = databaseService.UpdateDisplaySettings(item);
+        if(isSuccess){
+            isExpired = false;
+        }
+    }
 
     if(expireDate < nowDate){
         var item = {
             'displayId': '1',
-            'isInitiated': true,
+            'isInitiated': false,
             'dateInitiated': Date.now()
         };
 
