@@ -61,11 +61,11 @@ try:
     #     f.write("True")
     #     f.close()
     #     logging.info("init and Clear")
-    # epd.init(epd.FULL_UPDATE)
-    # epd.Clear(0xFF)
+    epd.init(epd.FULL_UPDATE)
+    epd.Clear(0xFF)
     epd.displayPartBaseImage(epd.getbuffer(image))
 
-    epd.init(epd.PART_UPDATE)
+    # epd.init(epd.PART_UPDATE)
     draw.rectangle((120, 80, 220, 105), fill=255)
     draw.text((10, 10), project, font=font24, fill=0)
     draw.text((10, 45), stage, font=font24, fill=0)
@@ -84,16 +84,16 @@ try:
     draw.text((10, 80), statusString, font=font24, fill=0)
     epd.displayPartial(epd.getbuffer(image))
 
-    # if status == 'completed':
-    #     time.sleep(5)
-    #     logging.info("Clear...")
-    #     epd.init(epd.FULL_UPDATE)
-    #     epd.Clear(0xFF)
-    #     logging.info("Goto Sleep...")
-    #     #epd.sleep()
-    #     f = open("pyinit.txt", "w")
-    #     f.write("False")
-    #     f.close()
+    if status == 'completed':
+        time.sleep(5)
+        logging.info("Clear...")
+        epd.init(epd.FULL_UPDATE)
+        epd.Clear(0xFF)
+        logging.info("Goto Sleep...")
+        #epd.sleep()
+        f = open("pyinit.txt", "w")
+        f.write("False")
+        f.close()
 
 except IOError as e:
     logging.info(e)
