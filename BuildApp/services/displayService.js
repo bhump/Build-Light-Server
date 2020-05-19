@@ -36,7 +36,7 @@ async function Display(project, stage, status, result) {
     try {
         var settingsResult = await databaseService.GetDisplaySettings();
 
-        if (settingsResult == undefined || settingsResult == false) {
+        if (settingsResult.isInitiated == false || settingsResult === undefined)  {
             initialize();
         }
     } catch (err) {
