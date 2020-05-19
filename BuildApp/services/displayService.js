@@ -2,15 +2,15 @@ const spawn = require('child_process').spawn;
 const path = require('path');
 var databaseService = require('../services/databaseService');
 
-// var scriptPath = path.resolve('e-paper/display.py');
-// var testScriptPath = path.resolve('e-paper/testDisplay.py');
-// var initializeScriptPath = path.resolve('e-paper/init.py');
-// var sleepScriptPath = path.resolve('e-paper/sleep.py');
+var scriptPath = path.resolve('e-paper/display.py');
+var testScriptPath = path.resolve('e-paper/testDisplay.py');
+var initializeScriptPath = path.resolve('e-paper/init.py');
+var sleepScriptPath = path.resolve('e-paper/sleep.py');
 
-var scriptPath = path.resolve('BuildApp/e-paper/display.py');
-var testScriptPath = path.resolve('BuildApp/e-paper/testDisplay.py'); //Test Locally
-var initializeScriptPath = path.resolve('BuildApp/e-paper/init.py');
-var sleepScriptPath = path.resolve('BuildApp/e-paper/sleep.py');
+// var scriptPath = path.resolve('BuildApp/e-paper/display.py');
+// var testScriptPath = path.resolve('BuildApp/e-paper/testDisplay.py'); //Test Locally
+// var initializeScriptPath = path.resolve('BuildApp/e-paper/init.py');
+// var sleepScriptPath = path.resolve('BuildApp/e-paper/sleep.py');
 
 var expireDate = new Date;
 
