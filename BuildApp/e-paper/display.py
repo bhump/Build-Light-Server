@@ -48,7 +48,8 @@ try:
     #     epd.displayPartBaseImage(epd.getbuffer(image))
 
     if status == 'inProgress' or status == 'running':
-        epd.Clear(0xFF)
+        epd.init(epd.FULL_UPDATE)
+        # epd.Clear(0xFF)
         epd.displayPartBaseImage(epd.getbuffer(image))
 
     epd.init(epd.PART_UPDATE)
