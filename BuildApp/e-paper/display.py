@@ -47,6 +47,9 @@ try:
         # epd.Clear(0xFF)
         epd.displayPartBaseImage(epd.getbuffer(image))
 
+    if status == 'inProgress' or status == 'running':
+        epd.Clear(0xFF)
+
     epd.init(epd.PART_UPDATE)
     draw.rectangle((120, 80, 220, 105), fill=255)
     draw.text((10, 10), project, font=font24, fill=0)
