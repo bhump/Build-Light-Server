@@ -30,19 +30,8 @@ try:
     isInitiated = sys.argv[5]
     expireDate = sys.argv[6]
 
-    # now = datetime.utcnow()
-
     epd = epd2in13_V2.EPD()
-
-    # pyexpiredate = datetime.strptime(expireDate, "%a, %d %b %Y %H:%M:%S %Z")
     
-    # if isInitiated == "false":
-    #     logging.info("init and Clear")
-    #     epd.init(epd.FULL_UPDATE)
-    #     epd.Clear(0xFF)
-    #     logging.info("sleep")
-    #     # epd.sleep()
-
     project = ''
     stage = ''
     status = ''

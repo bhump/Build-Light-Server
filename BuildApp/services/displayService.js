@@ -36,6 +36,7 @@ async function Display(project, stage, status, result) {
     var settings = await databaseService.GetDisplaySettings();
 
     if (settings.isInitiated == false) {
+        initialize();
         var item = {
             'displayId': '1',
             'isInitiated': true,
@@ -46,10 +47,10 @@ async function Display(project, stage, status, result) {
         if (isSuccess) {
             isExpired = false;
         }
+    }else {
+        runDisplay(project, stage, status, result, settings.isInitiated, expireDate.toUTCString());
+        runTestDisplay(project, stage, status, result, settings.isInitiated, expireDate.toUTCString());
     }
-
-    runDisplay(project, stage, status, result, settings.isInitiated, expireDate.toUTCString());
-    runTestDisplay(project, stage, status, result, settings.isInitiated, expireDate.toUTCString());
 };
 
 function runDisplay(project, stage, status, result, isInitiated, isExpired) {
