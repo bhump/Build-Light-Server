@@ -15,12 +15,9 @@ var sleepScriptPath = path.resolve('e-paper/sleep.py');
 var expireDate = new Date;
 
 async function Display(project, stage, status, result) {
-    var dataToSend;
-    var testDataToSend;
-
     var isExpired = false;
     var nowDate = new Date();
-    
+
     console.log('First Now Date ' + Date.now());
     console.log('First Expire Date' + expireDate);
 
@@ -38,7 +35,7 @@ async function Display(project, stage, status, result) {
 
     var settings = await databaseService.GetDisplaySettings();
 
-    if(settings.isInitiated == false){
+    if (settings.isInitiated == false) {
         var item = {
             'displayId': '1',
             'isInitiated': true,
@@ -46,26 +43,36 @@ async function Display(project, stage, status, result) {
         };
 
         var isSuccess = databaseService.UpdateDisplaySettings(item);
-        if(isSuccess){
+        if (isSuccess) {
             isExpired = false;
         }
     }
 
-    if(expireDate < nowDate){
-        var item = {
-            'displayId': '1',
-            'isInitiated': false,
-            'dateInitiated': Date.now()
-        };
+    while (settings.isInitiated) {
+        if (expireDate < nowDate) {
+            var item = {
+                'displayId': '1',
+                'isInitiated': false,
+                'dateInitiated': Date.now()
+            };
 
-        var isSuccess = databaseService.UpdateDisplaySettings(item);
-        if(isSuccess){
-            isExpired = true;
+            var isSuccess = databaseService.UpdateDisplaySettings(item);
+            if (isSuccess) {
+                isExpired = true;
+                settings.isInitiated = false;
+                runDisplay('', '', '', '', settings.isInitiated, isExpired);
+            }
         }
     }
 
+    runDisplay(project, stage, status, result, settings.isInitiated, isExpired);
+}
+
+function runDisplay(project, stage, status, result, isInitiated, isExpired) {
+    var dataToSend;
+
     try {
-        const python = spawn('python', [scriptPath.toString(), project, stage, status, result, settings.isInitiated, isExpired]);
+        const python = spawn('python', [scriptPath.toString(), project, stage, status, result, isInitiated, isExpired]);
 
         python.stdout.on('data', (data) => {
             console.log('Pipe data from display.py');
@@ -80,6 +87,10 @@ async function Display(project, stage, status, result) {
     } catch (err) {
         console.log(err);
     }
+}
+
+function runTestDisplay() {
+    var testDataToSend;
 
     try {
         const testPython = spawn('python', [testScriptPath.toString(), project, stage, status, result, settings.isInitiated, isExpired]);
@@ -97,7 +108,6 @@ async function Display(project, stage, status, result) {
     } catch (err) {
         console.log(err);
     }
-
 }
 
 function initialize() {
