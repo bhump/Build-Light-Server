@@ -48,6 +48,8 @@ async function Display(project, stage, status, result) {
         }
     }
 
+    runDisplay(project, stage, status, result, settings.isInitiated, isExpired);
+
     while (settings.isInitiated) {
         if (expireDate < nowDate) {
             var item = {
@@ -64,8 +66,6 @@ async function Display(project, stage, status, result) {
             }
         }
     }
-
-    runDisplay(project, stage, status, result, settings.isInitiated, isExpired);
 }
 
 function runDisplay(project, stage, status, result, isInitiated, isExpired) {
