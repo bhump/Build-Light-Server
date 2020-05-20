@@ -11,6 +11,18 @@ libdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib')
 
 try:
 
+    one = sys.argv[1]
+    two = sys.argv[2]
+    three = sys.argv[3]
+    four = sys.argv[4]
+    five = sys.argv[5]
+    six = sys.argv[6]
+
+    print(datetime.now().timestamp())
+    print(six)
+    print(datetime.utcnow())
+    print(datetime.strptime(six, "%a, %d %b %Y %H:%M:%S %Z"))
+    
     run_time = datetime.now() + timedelta(minutes=10)
 
     if run_time > datetime.now():
@@ -55,4 +67,5 @@ print('Third param:'+sys.argv[3]+'#')
 print('Fourth param:'+sys.argv[4]+'#')
 print('Fifth param:'+sys.argv[5]+'#')
 print('Six param:'+sys.argv[6]+'#')
+
 

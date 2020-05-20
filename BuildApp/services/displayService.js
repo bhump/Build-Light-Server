@@ -1,6 +1,7 @@
 const spawn = require('child_process').spawn;
 const path = require('path');
 var databaseService = require('../services/databaseService');
+var notifier = require('../notifier');
 
 var scriptPath = path.resolve('e-paper/display.py');
 var testScriptPath = path.resolve('e-paper/testDisplay.py');
@@ -16,7 +17,6 @@ var expireDate = new Date;
 
 async function Display(project, stage, status, result) {
     var isExpired = false;
-    var nowDate = new Date();
 
     console.log('First Now Date ' + Date.now());
     console.log('First Expire Date' + expireDate);
@@ -48,31 +48,15 @@ async function Display(project, stage, status, result) {
         }
     }
 
-    runDisplay(project, stage, status, result, settings.isInitiated, isExpired);
-
-    while (settings.isInitiated) {
-        if (expireDate < nowDate) {
-            var item = {
-                'displayId': '1',
-                'isInitiated': false,
-                'dateInitiated': Date.now()
-            };
-
-            var isSuccess = databaseService.UpdateDisplaySettings(item);
-            if (isSuccess) {
-                isExpired = true;
-                settings.isInitiated = false;
-                sleep();
-            }
-        }
-    }
-}
+    runDisplay(project, stage, status, result, settings.isInitiated, expireDate.toUTCString());
+    runTestDisplay(project, stage, status, result, settings.isInitiated, expireDate.toUTCString());
+};
 
 function runDisplay(project, stage, status, result, isInitiated, isExpired) {
     var dataToSend;
 
     try {
-        const python = spawn('python', [scriptPath.toString(), project, stage, status, result, isInitiated, isExpired.toString()]);
+        const python = spawn('python', [scriptPath.toString(), project, stage, status, result, isInitiated, isExpired]);
 
         python.stdout.on('data', (data) => {
             console.log('Pipe data from display.py');
@@ -87,13 +71,13 @@ function runDisplay(project, stage, status, result, isInitiated, isExpired) {
     } catch (err) {
         console.log(err);
     }
-}
+};
 
-function runTestDisplay() {
+function runTestDisplay(project, stage, status, result, isInitiated, isExpired) {
     var testDataToSend;
 
     try {
-        const testPython = spawn('python', [testScriptPath.toString(), project, stage, status, result, settings.isInitiated, isExpired]);
+        const testPython = spawn('python', [testScriptPath.toString(), project, stage, status, result, isInitiated, isExpired]);
 
         testPython.stdout.on('data', (data) => {
             console.log('Pipe data from testDisplay.py ...');
@@ -108,7 +92,7 @@ function runTestDisplay() {
     } catch (err) {
         console.log(err);
     }
-}
+};
 
 function initialize() {
     try {
@@ -140,6 +124,7 @@ function initialize() {
     };
 };
 
+
 function sleep() {
     try {
         var dataToSend;
@@ -159,7 +144,29 @@ function sleep() {
     } catch (err) {
         console.log(err);
     }
-}
+};
+
+// notifier.on('newrequest', (expireDate) => {
+//     var nowDate = new Date();
+
+//     while (expireDate >= nowDate) {
+
+//         if (expireDate < nowDate) {
+//             var item = {
+//                 'displayId': '1',
+//                 'isInitiated': false,
+//                 'dateInitiated': Date.now()
+//             };
+
+//             var isSuccess = databaseService.UpdateDisplaySettings(item);
+//             if (isSuccess) {
+//                 isExpired = true;
+//                 settings.isInitiated = false;
+//                 sleep();
+//             }
+//         }
+//     }
+// });
 
 module.exports = {
     Display
