@@ -30,11 +30,6 @@ try:
     isInitiated = sys.argv[5]
 
     epd = epd2in13_V2.EPD()
-    
-    project = ''
-    stage = ''
-    status = ''
-    stageResult = ''
 
     logging.info("epd2in13_V2 Custom")
 
@@ -49,7 +44,7 @@ try:
     if isInitiated == "false":
         logging.info("init and Clear")
         epd.init(epd.FULL_UPDATE)
-        epd.Clear(0xFF)
+        # epd.Clear(0xFF)
         epd.displayPartBaseImage(epd.getbuffer(image))
 
     epd.init(epd.PART_UPDATE)
