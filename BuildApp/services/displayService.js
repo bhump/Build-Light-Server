@@ -62,7 +62,7 @@ async function Display(project, stage, status, result) {
             if (isSuccess) {
                 isExpired = true;
                 settings.isInitiated = false;
-                runDisplay('', '', '', '', settings.isInitiated, isExpired);
+                sleep();
             }
         }
     }

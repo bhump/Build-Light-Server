@@ -32,58 +32,45 @@ try:
 
     epd = epd2in13_V2.EPD()
 
-    if isExpired == 'true':
-        logging.info("Clear...")
+    project = ''
+    stage = ''
+    status = ''
+    stageResult = ''
+
+    logging.info("epd2in13_V2 Custom")
+
+    # Drawing on the image
+    font20 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 20)
+    font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
+
+    # # partial update
+    image = Image.new('1', (epd.height, epd.width), 255)
+    draw = ImageDraw.Draw(image)
+
+    if isInitiated == "false":
+        logging.info("init and Clear")
         epd.init(epd.FULL_UPDATE)
         epd.Clear(0xFF)
-        logging.info("Goto Sleep...")
-        epd.sleep()
-        f = open("pyinit.txt", "w")
-        f.write("False")
-        f.close()
-    else:
-        project = ''
-        stage = ''
-        status = ''
-        stageResult = ''
+        epd.displayPartBaseImage(epd.getbuffer(image))
 
-        logging.info("epd2in13_V2 Custom")
-    
-        # Drawing on the image
-        font20 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 20)
-        font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
+    epd.init(epd.PART_UPDATE)
+    draw.rectangle((120, 80, 220, 105), fill=255)
+    draw.text((10, 10), project, font=font24, fill=0)
+    draw.text((10, 45), stage, font=font24, fill=0)
+    statusString = ''
 
-        # # partial update
-        image = Image.new('1', (epd.height, epd.width), 255)
-        draw = ImageDraw.Draw(image)
+    if status == 'inProgress' or status == 'running':
+        statusString = 'In Progress'
+        print('In Progress')
+    elif status == 'completed' and stageResult == 'succeeded':
+        statusString = 'Succeeded'
+        print('Stage Succeeded')
+    elif status == 'completed' and stageResult == 'failed':
+        statusString = 'Failed'
+        print('Stage Failed')
 
-        if isInitiated == "false":
-            # f = open("pyinit.txt", "w")
-            # f.write("True")
-            # f.close()
-            logging.info("init and Clear")
-            epd.init(epd.FULL_UPDATE)
-            epd.Clear(0xFF)
-            epd.displayPartBaseImage(epd.getbuffer(image))
-
-        epd.init(epd.PART_UPDATE)
-        draw.rectangle((120, 80, 220, 105), fill=255)
-        draw.text((10, 10), project, font=font24, fill=0)
-        draw.text((10, 45), stage, font=font24, fill=0)
-        statusString = ''
-
-        if status == 'inProgress' or status == 'running':
-            statusString = 'In Progress'
-            print('In Progress')
-        elif status == 'completed' and stageResult == 'succeeded':
-            statusString = 'Succeeded'
-            print('Stage Succeeded')
-        elif status == 'completed' and stageResult == 'failed':
-            statusString = 'Failed'
-            print('Stage Failed')
-
-        draw.text((10, 80), statusString, font=font24, fill=0)
-        epd.displayPartial(epd.getbuffer(image))
+    draw.text((10, 80), statusString, font=font24, fill=0)
+    epd.displayPartial(epd.getbuffer(image))
 
 except IOError as e:
     logging.info(e)
