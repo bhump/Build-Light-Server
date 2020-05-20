@@ -36,12 +36,12 @@ try:
 
     # pyexpiredate = datetime.strptime(expireDate, "%a, %d %b %Y %H:%M:%S %Z")
     
-    if isInitiated == "false":
-        logging.info("init and Clear")
-        epd.init(epd.FULL_UPDATE)
-        epd.Clear(0xFF)
-        logging.info("sleep")
-        # epd.sleep()
+    # if isInitiated == "false":
+    #     logging.info("init and Clear")
+    #     epd.init(epd.FULL_UPDATE)
+    #     epd.Clear(0xFF)
+    #     logging.info("sleep")
+    #     # epd.sleep()
 
     project = ''
     stage = ''
