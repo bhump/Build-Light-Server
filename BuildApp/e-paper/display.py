@@ -32,7 +32,7 @@ try:
 
     # now = datetime.utcnow()
 
-    # epd = epd2in13_V2.EPD()
+    epd = epd2in13_V2.EPD()
 
     # pyexpiredate = datetime.strptime(expireDate, "%a, %d %b %Y %H:%M:%S %Z")
     
