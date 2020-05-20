@@ -72,7 +72,7 @@ function runDisplay(project, stage, status, result, isInitiated, isExpired) {
     var dataToSend;
 
     try {
-        const python = spawn('python', [scriptPath.toString(), project, stage, status, result, isInitiated, isExpired]);
+        const python = spawn('python', [scriptPath.toString(), project, stage, status, result, isInitiated, isExpired.toString()]);
 
         python.stdout.on('data', (data) => {
             console.log('Pipe data from display.py');

@@ -157,6 +157,7 @@ stages:
                     pm2 stop ./bin/www
                     
                     nohup pm2 start ./bin/www
+                    nohup pm2 save
                     echo "service started"
                     exit
                   readyTimeout: '20000'
