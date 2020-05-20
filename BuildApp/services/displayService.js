@@ -49,7 +49,7 @@ async function Display(project, stage, status, result) {
         }
     }
 
-    runDisplay(project, stage, status, result, settings.isInitiated, expireDate.toUTCString());
+    runDisplay(project, stage, status, result, settings.isInitiated);
     runTestDisplay(project, stage, status, result, settings.isInitiated, expireDate.toUTCString());
 };
 

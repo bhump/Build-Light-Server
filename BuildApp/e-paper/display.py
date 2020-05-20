@@ -28,7 +28,6 @@ try:
     status = sys.argv[3]
     stageResult = sys.argv[4]
     isInitiated = sys.argv[5]
-    expireDate = sys.argv[6]
 
     epd = epd2in13_V2.EPD()
     
