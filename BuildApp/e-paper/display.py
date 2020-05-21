@@ -47,10 +47,10 @@ try:
     #     # epd.Clear(0xFF)
     #     epd.displayPartBaseImage(epd.getbuffer(image))
 
-    if status == 'inProgress' or status == 'running':
-        epd.init(epd.FULL_UPDATE)
+    # if status == 'inProgress' or status == 'running':
+    epd.init(epd.FULL_UPDATE)
         # epd.Clear(0xFF)
-        epd.displayPartBaseImage(epd.getbuffer(image))
+    epd.displayPartBaseImage(epd.getbuffer(image))
 
     epd.init(epd.PART_UPDATE)
     draw.rectangle((120, 80, 220, 105), fill=255)
