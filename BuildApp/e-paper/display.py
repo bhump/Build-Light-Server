@@ -49,10 +49,10 @@ try:
 
     # if status == 'inProgress' or status == 'running':
     epd.init(epd.FULL_UPDATE)
-        # epd.Clear(0xFF)
-    epd.displayPartBaseImage(epd.getbuffer(image))
+    #     # epd.Clear(0xFF)
+    # epd.displayPartBaseImage(epd.getbuffer(image))
 
-    epd.init(epd.PART_UPDATE)
+    # epd.init(epd.PART_UPDATE)
     draw.rectangle((120, 80, 220, 105), fill=255)
     draw.text((10, 10), project, font=font24, fill=0)
     draw.text((10, 45), stage, font=font24, fill=0)
@@ -67,9 +67,13 @@ try:
     elif status == 'completed' and stageResult == 'failed':
         statusString = 'Failed'
         print('Stage Failed')
+    elif status == 'cancelled':
+        statusString = 'Cancelled'
 
     draw.text((10, 80), statusString, font=font24, fill=0)
-    epd.displayPartial(epd.getbuffer(image))
+    # epd.displayPartial(epd.getbuffer(image))
+    epd.display(epd.getbuffer(image))
+
 
 except IOError as e:
     logging.info(e)
