@@ -41,16 +41,11 @@ try:
     image = Image.new('1', (epd.height, epd.width), 255)
     draw = ImageDraw.Draw(image)
 
-    # if isInitiated == "false":
-    #     logging.info("init and Clear")
-    #     epd.init(epd.FULL_UPDATE)
-    #     # epd.Clear(0xFF)
-    #     epd.displayPartBaseImage(epd.getbuffer(image))
+    if isInitiated == "false":
+        logging.info("init and Clear")
+        epd.init(epd.FULL_UPDATE)
 
-    # if status == 'inProgress' or status == 'running':
-    epd.init(epd.FULL_UPDATE)
     epd.Clear(0xFF)
-    # epd.displayPartBaseImage(epd.getbuffer(image))
 
     # epd.init(epd.PART_UPDATE)
     draw.rectangle((120, 80, 220, 105), fill=255)
