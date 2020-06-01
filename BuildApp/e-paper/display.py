@@ -43,8 +43,8 @@ try:
 
     if isInitiated == "false":
         logging.info("init and Clear")
-        epd.init(epd.FULL_UPDATE)
-
+        
+    epd.init(epd.FULL_UPDATE)
     epd.Clear(0xFF)
 
     # epd.init(epd.PART_UPDATE)
