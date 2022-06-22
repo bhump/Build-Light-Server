@@ -7,7 +7,7 @@
     "stop": "pkill --signal SIGINT myApp"
   },
   "dependencies": {
-    "async": "^3.2.0",
+    "async": "^3.2.2",
     "axios": "^0.19.2",
     "blinkstick": "^1.2.0",
     "cookie-parser": "^1.4.5",
